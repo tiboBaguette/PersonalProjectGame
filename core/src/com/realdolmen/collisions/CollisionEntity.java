@@ -23,10 +23,10 @@ public class CollisionEntity {
         collision = false;
         for (CollisionEntity collisionEntity2 : collisionEntities) {
             // check for collisions
-            if (collisionEntity1.getX() + collisionEntity1.getWidth() / 4 + moveX > collisionEntity2.getX() - collisionEntity2.getWidth() / 4) {
-                if (collisionEntity1.getX() - collisionEntity1.getWidth() / 4 + moveX < collisionEntity2.getX() + collisionEntity2.getWidth() / 4) {
-                    if (collisionEntity1.getY() + collisionEntity1.getHeight() / 4 + moveY > collisionEntity2.getY() - collisionEntity2.getHeight() / 4) {
-                        if (collisionEntity1.getY() - collisionEntity1.getHeight() / 4 + moveY < collisionEntity2.getY() + collisionEntity2.getHeight() / 4) {
+            if (collisionEntity1.getX() + collisionEntity1.getWidth() / 2 + moveX > collisionEntity2.getX() - collisionEntity2.getWidth() / 2) {
+                if (collisionEntity1.getX() - collisionEntity1.getWidth() / 2 + moveX < collisionEntity2.getX() + collisionEntity2.getWidth() / 2) {
+                    if (collisionEntity1.getY() + collisionEntity1.getHeight() / 2 + moveY > collisionEntity2.getY() - collisionEntity2.getHeight() / 2) {
+                        if (collisionEntity1.getY() - collisionEntity1.getHeight() / 2 + moveY < collisionEntity2.getY() + collisionEntity2.getHeight() / 2) {
                             if (!collisionEntity1.equals(collisionEntity2)) {
                                 // collision
                                 collision = true;

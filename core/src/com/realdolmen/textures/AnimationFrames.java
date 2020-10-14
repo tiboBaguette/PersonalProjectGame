@@ -1,4 +1,4 @@
-package com.realdolmen;
+package com.realdolmen.textures;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -8,22 +8,27 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationFrames extends ApplicationAdapter {
     private TextureAtlas textureAtlas;
-    Animation playerIdleFront;
-    Animation playerIdleBack;
-    Animation playerRunFront;
-    Animation playerRunBack;
-    Animation playerAttackSide;
-    Animation playerAttackUp;
-    Animation playerAttackDown;
-    Animation playerTakeDamage;
-    Animation playerPushSide;
-    Animation playerPullSide;
-    Animation playerPushUp;
-    Animation playerPushDown;
-    Animation playerPullUp;
-    Animation playerPullDown;
-    Animation playerDeath;
-    Animation playerPitfall;
+    private Animation playerCurrentAnimation;
+    private Animation playerIdleFront;
+    private Animation playerIdleBack;
+    private Animation playerRunFront;
+    private Animation playerRunBack;
+    private Animation playerAttackSide;
+    private Animation playerAttackUp;
+    private Animation playerAttackDown;
+    private Animation playerTakeDamage;
+    private Animation playerPushSide;
+    private Animation playerPullSide;
+    private Animation playerPushUp;
+    private Animation playerPushDown;
+    private Animation playerPullUp;
+    private Animation playerPullDown;
+    private Animation playerDeath;
+    private Animation playerPitfall;
+
+    public void setPlayerCurrentAnimation(Animation playerAnimation) {
+        this.playerCurrentAnimation = playerAnimation;
+    }
 
     public void createFrames() {
         textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/animations/PlayerAnimations.atlas"));
@@ -84,12 +89,82 @@ public class AnimationFrames extends ApplicationAdapter {
         playerAttackDownFrames[0] = (textureAtlas.findRegion("AttackDown1"));
         playerAttackDownFrames[1] = (textureAtlas.findRegion("AttackDown2"));
         playerAttackDownFrames[2] = (textureAtlas.findRegion("AttackDown3"));
-        playerAttackDown = new Animation(0.125f,playerAttackSideFrames);
+        playerAttackDown = new Animation(0.125f,playerAttackDownFrames);
 
         TextureRegion[] playerTakeDamageFrames = new TextureRegion[3];
         playerTakeDamageFrames[0] = (textureAtlas.findRegion("TakeDamage1"));
         playerTakeDamageFrames[1] = (textureAtlas.findRegion("TakeDamage2"));
         playerTakeDamageFrames[2] = (textureAtlas.findRegion("TakeDamage3"));
         playerTakeDamage = new Animation(0.125f,playerTakeDamageFrames);
+
+        playerCurrentAnimation = playerIdleFront;
+    }
+
+    public Animation getPlayerCurrentAnimation() {
+        return playerCurrentAnimation;
+    }
+
+    public Animation getPlayerIdleFront() {
+        return playerIdleFront;
+    }
+
+    public Animation getPlayerIdleBack() {
+        return playerIdleBack;
+    }
+
+    public Animation getPlayerRunFront() {
+        return playerRunFront;
+    }
+
+    public Animation getPlayerRunBack() {
+        return playerRunBack;
+    }
+
+    public Animation getPlayerAttackSide() {
+        return playerAttackSide;
+    }
+
+    public Animation getPlayerAttackUp() {
+        return playerAttackUp;
+    }
+
+    public Animation getPlayerAttackDown() {
+        return playerAttackDown;
+    }
+
+    public Animation getPlayerTakeDamage() {
+        return playerTakeDamage;
+    }
+
+    public Animation getPlayerPushSide() {
+        return playerPushSide;
+    }
+
+    public Animation getPlayerPullSide() {
+        return playerPullSide;
+    }
+
+    public Animation getPlayerPushUp() {
+        return playerPushUp;
+    }
+
+    public Animation getPlayerPushDown() {
+        return playerPushDown;
+    }
+
+    public Animation getPlayerPullUp() {
+        return playerPullUp;
+    }
+
+    public Animation getPlayerPullDown() {
+        return playerPullDown;
+    }
+
+    public Animation getPlayerDeath() {
+        return playerDeath;
+    }
+
+    public Animation getPlayerPitfall() {
+        return playerPitfall;
     }
 }

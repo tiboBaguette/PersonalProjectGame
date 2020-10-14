@@ -7,18 +7,17 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.realdolmen.collisions.CollisionEntity;
+import com.realdolmen.map.MapGeneration;
+import com.realdolmen.textures.AnimationFrames;
+import com.realdolmen.textures.MapTiles;
 
-public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
+public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Stage stage;
 
@@ -30,21 +29,21 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
     private AnimationFrames animationFrames = new AnimationFrames();
 
     // maps
-    private TiledMap tiledMap;
-    private TiledMapRenderer tiledMapRenderer;
+    private MapTiles mapTileset = new MapTiles();
+    MapGeneration mapGeneration = new MapGeneration(21, 21);
 
     // camera
     private OrthographicCamera camera;
 
-    // variables
-    private float playerX = 0;
-    private float playerY = 0;
+    // player
+    private float playerX = -16;
+    private float playerY = -16;
 
     // collisions
-    CollisionEntity testEntity = new CollisionEntity(150, 100, 24, 48);
-    CollisionEntity testEntity2 = new CollisionEntity(200, 200, 24, 48);
-    CollisionEntity testEntity3 = new CollisionEntity(150, 200, 24, 48);
-    CollisionEntity player = new CollisionEntity(playerX, playerY, 24, 48);
+    CollisionEntity testEntity = new CollisionEntity(-50, -50, 16, 16);
+    CollisionEntity testEntity2 = new CollisionEntity(200, 200, 16, 16);
+    CollisionEntity testEntity3 = new CollisionEntity(150, 200, 16, 16);
+    CollisionEntity player = new CollisionEntity(playerX, playerY, 16, 16);
 
     @Override
     public void create() {
@@ -58,9 +57,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
         camera.update();
 
         // map
-        tiledMap = new TmxMapLoader().load("core/assets/maps/CollisionMap.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        Gdx.input.setInputProcessor(this);
+        mapTileset.createTextures();
 
         // animations
         animationFrames.createFrames();
@@ -97,6 +94,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void render() {
+        //System.out.println("x" + playerX + "y" + playerY);
         // clear
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -118,29 +116,25 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
             camera.translate(0,2);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
-            tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
-        }
-
         // keyboard input
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            player.move(player, -4, 0);
+            player.move(player, -2, 0);
+            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunFront());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.move(player, 4, 0);
+            player.move(player, 2, 0);
+            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunFront());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.Z)){
-            player.move(player, 0, 4);
+            player.move(player, 0, 2);
+            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunBack());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.move(player, 0, -4);
+            player.move(player, 0, -2);
+            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunFront());
         }
 
         // mouse input
@@ -149,19 +143,20 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
             playerY = Gdx.graphics.getHeight() - Gdx.input.getY() - 24; // mouse top left = 0,0  sprite bottom left = 0,0
         }
 
-        // camera & map
+        // camera
         camera.update();
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
 
         // batch (player)
         batch.begin();
         elapsedTime += Gdx.graphics.getDeltaTime();
-        batch.draw((TextureRegion) animationFrames.playerAttackDown.getKeyFrame(elapsedTime, true), player.getX(), player.getY());
+        // map
+        mapGeneration.generateMap(batch, mapTileset);
+        // player
+        batch.draw((TextureRegion) animationFrames.getPlayerCurrentAnimation().getKeyFrame(elapsedTime, true), player.getX() - 16, player.getY() - 16);
         // collision test
-        batch.draw((TextureRegion) animationFrames.playerRunFront.getKeyFrame(elapsedTime, true), 150, 100);
-        batch.draw((TextureRegion) animationFrames.playerTakeDamage.getKeyFrame(elapsedTime, true), 200, 200);
-        batch.draw((TextureRegion) animationFrames.playerAttackSide.getKeyFrame(elapsedTime, true), 150, 200);
+        batch.draw((TextureRegion) animationFrames.getPlayerRunFront().getKeyFrame(elapsedTime, true), -50 - 16, -50 - 16);
+        batch.draw((TextureRegion) animationFrames.getPlayerTakeDamage().getKeyFrame(elapsedTime, true), 200 - 16, 200 - 16);
+        batch.draw((TextureRegion) animationFrames.getPlayerAttackUp().getKeyFrame(elapsedTime, true), 150 - 16, 200 - 16);
         //
         batch.setProjectionMatrix(camera.combined);
         stage.draw();
@@ -183,45 +178,5 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public void resume() {
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }
