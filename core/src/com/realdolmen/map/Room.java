@@ -33,15 +33,18 @@ public class Room {
     public void generate(Batch batch, MapTiles mapTileset, List<Coordinates> doorCoordinates) {
         for (int i = 0; i <= width; i++) {
             for (int j = 0; j <= height; j++) {
+                isDoorLocation = false;
                 for (Coordinates coordinates : doorCoordinates) {
-                    if (coordinates.getXTileCoords() == i && coordinates.getYTileCoords() == j) {
+                    if (coordinates.getXTileCoords() + x == i && coordinates.getYTileCoords() + y == j) {
                         isDoorLocation = true;
+                        System.out.println(coordinates.toString());
                     }
                 }
 
                 // doors
                 if (isDoorLocation) {
-
+                    tileList.add(new Tile(i + x, j + y, mapTileset.getChest(), false));
+                    System.out.println("allee dan");
                 }
 
                 // corners

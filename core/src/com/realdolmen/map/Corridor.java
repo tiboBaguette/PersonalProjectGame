@@ -3,7 +3,6 @@ package com.realdolmen.map;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.realdolmen.textures.MapTiles;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Corridor {

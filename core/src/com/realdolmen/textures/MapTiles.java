@@ -13,6 +13,7 @@ public class MapTiles extends ApplicationAdapter {
     private TextureAtlas textureAtlas;
     private TextureRegion wallCornerTopLeft, wallCornerTopRight, wallCornerBottomLeft, wallCornerBottomRight;
     private List<TextureRegion> wallVertical, wallHorizontal, floor;
+    private TextureRegion chest;
 
     public void createTextures() {
         textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/maps/Tileset.atlas"));
@@ -43,6 +44,9 @@ public class MapTiles extends ApplicationAdapter {
         floor.add(new TextureRegion(textureAtlas.findRegion("tile006")));
         floor.add(new TextureRegion(textureAtlas.findRegion("tile021")));
         floor.add(new TextureRegion(textureAtlas.findRegion("tile022")));
+
+        // chest
+        chest = new TextureRegion(textureAtlas.findRegion("tile192"));
     }
 
     public TextureRegion getWallCornerTopLeft() {
@@ -71,5 +75,9 @@ public class MapTiles extends ApplicationAdapter {
 
     public List<TextureRegion> getFloor() {
         return floor;
+    }
+
+    public TextureRegion getChest() {
+        return chest;
     }
 }

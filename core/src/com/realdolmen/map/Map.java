@@ -36,18 +36,19 @@ public class Map {
         float roomChance = 100;
         generateCorridorsWithRooms(startingRoom, roomChance);
 
-        List<Coordinates> doorCoordinatesnew = new ArrayList<>();
-//        for (Doorway doorway, doors) {
-//            doorCoordinatesnew.add(doorway.getDoorCoordinates());
-//        }
+        // get all the door coordinates
+        List<Coordinates> doorCoordinates = new ArrayList<>();
+        for (Doorway doorway : doors) {
+            doorCoordinates.addAll(doorway.getDoorCoordinates());
+        }
 
+        // generate everything
         for (Corridor corridor : corridors) {
-            corridor.generate(batch, mapTiles, doorCoordinatesnew);
+            corridor.generate(batch, mapTiles, doorCoordinates);
         }
 
         for (Room room : rooms) {
-
-            room.generate(batch, mapTiles, doorCoordinatesnew);
+            room.generate(batch, mapTiles, doorCoordinates);
         }
     }
 
@@ -79,17 +80,8 @@ public class Map {
                 }
 
                 // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, "UP");
+                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "UP");
                 doors.add(doorway);
-
-                int doorX1 = corridorX + 1;
-                int doorX2 = corridorX + 2;
-                int doorX3 = corridorX + 3;
-
-                int doorY1 = corridorY;
-                int doorY2 = corridorY + corridorHeight;
-
-
             }
         }
         if (!room.isRoomDown()) {
@@ -115,15 +107,8 @@ public class Map {
                 }
 
                 // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, "DOWN");
+                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "DOWN");
                 doors.add(doorway);
-
-                int doorX1 = corridorX + 1;
-                int doorX2 = corridorX + 2;
-                int doorX3 = corridorX + 3;
-
-                int doorY1 = corridorY;
-                int doorY2 = corridorY - corridorHeight;
             }
         }
         if (!room.isRoomLeft()) {
@@ -149,15 +134,8 @@ public class Map {
                 }
 
                 // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, "LEFT");
+                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "LEFT");
                 doors.add(doorway);
-
-                int doorY1 = corridorY + 1;
-                int doorY2 = corridorY + 2;
-                int doorY3 = corridorY + 3;
-
-                int doorX1 = corridorX;
-                int doorX2 = corridorX + corridorWidth;
             }
         }
         if (!room.isRoomRight()) {
@@ -183,15 +161,8 @@ public class Map {
                 }
 
                 // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, "RIGHT");
+                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "RIGHT");
                 doors.add(doorway);
-
-                int doorY1 = corridorY + 1;
-                int doorY2 = corridorY + 2;
-                int doorY3 = corridorY + 3;
-
-                int doorX1 = corridorX;
-                int doorX2 = corridorX + corridorWidth;
             }
         }
     }
