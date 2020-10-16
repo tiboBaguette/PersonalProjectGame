@@ -31,6 +31,8 @@ public class Player {
         collisionEntity = new CollisionEntity(x, y, WIDTH, HEIGHT);
         collisionEntity.addCollisionEntity(collisionEntity);
         this.facing = "DOWN";
+
+        camera.translate(- Gdx.graphics.getWidth() / 2, - Gdx.graphics.getHeight() / 2);
     }
 
     public void move(float moveX, float moveY) {

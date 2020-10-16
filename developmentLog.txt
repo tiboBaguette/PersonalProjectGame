@@ -20,3 +20,5 @@ simple room generation afgewerkt
 Player klasse aangemaakt
 collision optimization, space partitioning (chunks)
 map generation: verschillende random rooms die verbonden zijn (https://gamedevelopment.tutsplus.com/tutorials/create-a-procedurally-generated-dungeon-cave-system--gamedev-10099)
+
+Dag 5 16/10/2020

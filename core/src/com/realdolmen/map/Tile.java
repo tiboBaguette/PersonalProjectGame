@@ -15,14 +15,15 @@ public class Tile {
         this.y = y;
         this.textureRegion = textureRegion;
         this.collidable = collidable;
-        createCollisionEntities();
+
+        if (collidable) {
+            createCollisionEntities();
+        }
     }
 
     private void createCollisionEntities() {
-        if (collidable) {
-            CollisionEntity collisionEntity = new CollisionEntity(x * 16, y * 16, 16, 16);
-            collisionEntity.addCollisionEntity(collisionEntity);
-        }
+        CollisionEntity collisionEntity = new CollisionEntity(x * 16, y * 16, 16, 16);
+        collisionEntity.addCollisionEntity(collisionEntity);
     }
 
     public void draw(Batch batch) {

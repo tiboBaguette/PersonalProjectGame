@@ -26,8 +26,6 @@ public class MyGdxGame extends ApplicationAdapter {
     // map
     private MapTiles mapTileset = new MapTiles();
     private Map map = new Map(1000, 1000,10, 5, 41, 41, 21, 21);
-    // rooms
-    // private Room room = new Room(100, 100, 31, 31);
 
     // camera
     private OrthographicCamera camera;
@@ -40,6 +38,10 @@ public class MyGdxGame extends ApplicationAdapter {
         // batch
         batch = new SpriteBatch();
 
+        // map
+        mapTileset.createTextures();
+        map.generate(batch, mapTileset);
+
         // camera
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
@@ -48,13 +50,7 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.update();
 
         // player
-        player = new Player(screenWidth / 2 - 12, screenHeight / 2 - 16, camera);
-
-        // map
-
-        mapTileset.createTextures();
-        map.generate(batch, mapTileset);
-        //room.generate(batch, mapTileset);
+        player = new Player(0, 0, camera);
 
         // animations
         player.createAnimationFrames();
@@ -73,7 +69,8 @@ public class MyGdxGame extends ApplicationAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 //room.generate(batch, mapTileset);
-                map.generate(batch, mapTileset);
+                //map.generate(batch, mapTileset);
+                System.out.println("player X: " + player.getX() + "player Y: " + player.getY());
             }
         });
 
@@ -148,6 +145,19 @@ public class MyGdxGame extends ApplicationAdapter {
             player.move(0, -8);
             player.setCurrentAnimation(player.getAnimationFrames().getPlayerRunFront());
             player.setFacing("DOWN");
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            player.move(0, 40);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            player.move(0, -40);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            player.move(-40, 0);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            player.move(40, 0);
         }
     }
 }

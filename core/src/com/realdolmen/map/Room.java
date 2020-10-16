@@ -2,7 +2,6 @@ package com.realdolmen.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.realdolmen.collisions.CollisionEntity;
 import com.realdolmen.textures.MapTiles;
 
 import java.util.ArrayList;
@@ -17,6 +16,13 @@ public class Room {
     private Room closestRoom;
     private List<Room> directlyConnected = new ArrayList<>();
 
+    private boolean roomUp = false;
+    private boolean roomDown = false;
+    private boolean roomLeft = false;
+    private boolean roomRight = false;
+
+    private boolean isDoorLocation;
+
     public Room(int x, int y, int width, int height) {
         this.x = x / 16;
         this.y = y / 16;
@@ -24,11 +30,22 @@ public class Room {
         this.height = height;
     }
 
-    public void generate(Batch batch, MapTiles mapTileset) {
+    public void generate(Batch batch, MapTiles mapTileset, List<Coordinates> doorCoordinates) {
         for (int i = 0; i <= width; i++) {
             for (int j = 0; j <= height; j++) {
+                for (Coordinates coordinates : doorCoordinates) {
+                    if (coordinates.getXTileCoords() == i && coordinates.getYTileCoords() == j) {
+                        isDoorLocation = true;
+                    }
+                }
+
+                // doors
+                if (isDoorLocation) {
+
+                }
+
                 // corners
-                if (i == 0 && j == 0) {
+                else if (i == 0 && j == 0) {
                     tileList.add(new Tile(i + x, j + y, mapTileset.getWallCornerBottomLeft(), true));
                 }
                 else if (i == 0 && j == height) {
@@ -40,7 +57,6 @@ public class Room {
                 else if (i == width && j == height) {
                     tileList.add(new Tile(i + x , j + y, mapTileset.getWallCornerTopRight(), true));
                 }
-                // doors
 
                 // walls
                 else if (i == 0) {
@@ -60,7 +76,6 @@ public class Room {
                 else {
                     tileList.add(new Tile(i + x, j + y, getRandomTile(mapTileset.getFloor()), false));
                 }
-
             }
         }
     }
@@ -114,5 +129,49 @@ public class Room {
 
     public void setClosestRoom(Room closestRoom) {
         this.closestRoom = closestRoom;
+    }
+
+    public boolean isRoomUp() {
+        return roomUp;
+    }
+
+    public void setRoomUp(boolean roomUp) {
+        this.roomUp = roomUp;
+    }
+
+    public boolean isRoomDown() {
+        return roomDown;
+    }
+
+    public void setRoomDown(boolean roomDown) {
+        this.roomDown = roomDown;
+    }
+
+    public boolean isRoomLeft() {
+        return roomLeft;
+    }
+
+    public void setRoomLeft(boolean roomLeft) {
+        this.roomLeft = roomLeft;
+    }
+
+    public boolean isRoomRight() {
+        return roomRight;
+    }
+
+    public void setRoomRight(boolean roomRight) {
+        this.roomRight = roomRight;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                ", closestRoom=" + closestRoom +
+                ", directlyConnected=" + directlyConnected +
+                '}';
     }
 }
