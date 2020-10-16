@@ -11,3 +11,12 @@ buttons
 tiled maps inladen
 camera
 collisions (collisionEntity klasse)
+
+Dag 3 14/10/2020
+automatisch maps genereren adhv .atlas en collsions van muren etc correct toevoegen.
+
+Dag 4 15/10/2020
+simple room generation afgewerkt
+Player klasse aangemaakt
+collision optimization, space partitioning (chunks)
+map generation: verschillende random rooms die verbonden zijn (https://gamedevelopment.tutsplus.com/tutorials/create-a-procedurally-generated-dungeon-cave-system--gamedev-10099)

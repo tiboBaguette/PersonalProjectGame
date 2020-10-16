@@ -3,7 +3,6 @@ package com.realdolmen;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -12,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.realdolmen.collisions.CollisionEntity;
-import com.realdolmen.map.MapGeneration;
-import com.realdolmen.textures.AnimationFrames;
+import com.realdolmen.creatures.Player;
+import com.realdolmen.map.Map;
+import com.realdolmen.map.Room;
 import com.realdolmen.textures.MapTiles;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -24,57 +23,47 @@ public class MyGdxGame extends ApplicationAdapter {
     // ui
     private Skin skin;
 
-    // animations
-    private float elapsedTime = 0;
-    private AnimationFrames animationFrames = new AnimationFrames();
-
-    // maps
+    // map
     private MapTiles mapTileset = new MapTiles();
-    MapGeneration mapGeneration = new MapGeneration(21, 21);
+    private Map map = new Map(1000, 1000,10, 5, 41, 41, 21, 21);
+    // rooms
+    // private Room room = new Room(100, 100, 31, 31);
 
     // camera
     private OrthographicCamera camera;
 
     // player
-    private float playerX = -16;
-    private float playerY = -16;
-
-    // collisions
-    CollisionEntity testEntity = new CollisionEntity(-50, -50, 16, 16);
-    CollisionEntity testEntity2 = new CollisionEntity(200, 200, 16, 16);
-    CollisionEntity testEntity3 = new CollisionEntity(150, 200, 16, 16);
-    CollisionEntity player = new CollisionEntity(playerX, playerY, 16, 16);
+    private Player player;
 
     @Override
     public void create() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
+        // batch
         batch = new SpriteBatch();
 
         // camera
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,screenWidth,screenHeight);
+        camera.setToOrtho(false, screenWidth, screenHeight);
         camera.update();
 
+        // player
+        player = new Player(screenWidth / 2 - 12, screenHeight / 2 - 16, camera);
+
         // map
+
         mapTileset.createTextures();
+        map.generate(batch, mapTileset);
+        //room.generate(batch, mapTileset);
 
         // animations
-        animationFrames.createFrames();
-
-        // collisions
-        // collision test
-        testEntity.addCollisionEntity(testEntity);
-        testEntity2.addCollisionEntity(testEntity2);
-        testEntity3.addCollisionEntity(testEntity3);
-        //
-        player.addCollisionEntity(player);
+        player.createAnimationFrames();
 
         // button
         skin = new Skin(Gdx.files.internal("core/assets/ui/uiskin.json"));
         stage = new Stage();
 
-        final TextButton button = new TextButton("Click me", skin, "default");
+        final TextButton button = new TextButton("Generate New Map", skin, "default");
 
         button.setWidth(200f);
         button.setHeight(20f);
@@ -83,7 +72,8 @@ public class MyGdxGame extends ApplicationAdapter {
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                button.setText("You clicked the button");
+                //room.generate(batch, mapTileset);
+                map.generate(batch, mapTileset);
             }
         });
 
@@ -94,71 +84,25 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void render() {
-        //System.out.println("x" + playerX + "y" + playerY);
         // clear
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // camera movement
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            camera.translate(2,0);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            camera.translate(-2,0);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            camera.translate(0,-2);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            camera.translate(0,2);
-        }
-
-        // keyboard input
-        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            player.move(player, -2, 0);
-            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunFront());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.move(player, 2, 0);
-            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunFront());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
-            player.move(player, 0, 2);
-            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunBack());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.move(player, 0, -2);
-            animationFrames.setPlayerCurrentAnimation(animationFrames.getPlayerRunFront());
-        }
-
-        // mouse input
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-            playerX = Gdx.input.getX() - 24;
-            playerY = Gdx.graphics.getHeight() - Gdx.input.getY() - 24; // mouse top left = 0,0  sprite bottom left = 0,0
-        }
+        // input
+        input();
 
         // camera
         camera.update();
 
-        // batch (player)
+        // batch
         batch.begin();
-        elapsedTime += Gdx.graphics.getDeltaTime();
         // map
-        mapGeneration.generateMap(batch, mapTileset);
+        //room.draw(batch);
+        map.draw(batch);
         // player
-        batch.draw((TextureRegion) animationFrames.getPlayerCurrentAnimation().getKeyFrame(elapsedTime, true), player.getX() - 16, player.getY() - 16);
-        // collision test
-        batch.draw((TextureRegion) animationFrames.getPlayerRunFront().getKeyFrame(elapsedTime, true), -50 - 16, -50 - 16);
-        batch.draw((TextureRegion) animationFrames.getPlayerTakeDamage().getKeyFrame(elapsedTime, true), 200 - 16, 200 - 16);
-        batch.draw((TextureRegion) animationFrames.getPlayerAttackUp().getKeyFrame(elapsedTime, true), 150 - 16, 200 - 16);
-        //
+        player.draw(batch);
         batch.setProjectionMatrix(camera.combined);
+        // stage
         stage.draw();
         batch.end();
     }
@@ -178,5 +122,32 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void resume() {
+    }
+
+    private void input() {
+        // player movement input
+        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+            player.move(-8, 0);
+            player.setCurrentAnimation(player.getAnimationFrames().getPlayerRunFront());
+            player.setFacing("LEFT");
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            player.move(8, 0);
+            player.setCurrentAnimation(player.getAnimationFrames().getPlayerRunFront());
+            player.setFacing("RIGHT");
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
+            player.move(0, 8);
+            player.setCurrentAnimation(player.getAnimationFrames().getPlayerRunBack());
+            player.setFacing("UP");
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            player.move(0, -8);
+            player.setCurrentAnimation(player.getAnimationFrames().getPlayerRunFront());
+            player.setFacing("DOWN");
+        }
     }
 }

@@ -26,11 +26,7 @@ public class AnimationFrames extends ApplicationAdapter {
     private Animation playerDeath;
     private Animation playerPitfall;
 
-    public void setPlayerCurrentAnimation(Animation playerAnimation) {
-        this.playerCurrentAnimation = playerAnimation;
-    }
-
-    public void createFrames() {
+    public void createPlayerFrames() {
         textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/animations/PlayerAnimations.atlas"));
 
         TextureRegion[] playerIdleFrontFrames = new TextureRegion[8];
