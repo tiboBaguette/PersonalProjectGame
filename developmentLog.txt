@@ -13,7 +13,7 @@ camera
 collisions (collisionEntity klasse)
 
 Dag 3 14/10/2020
-automatisch maps genereren adhv .atlas en collsions van muren etc correct toevoegen.
+automatisch rooms genereren adhv .atlas en collsions van muren etc correct toevoegen.
 
 Dag 4 15/10/2020
 simple room generation afgewerkt
@@ -22,3 +22,7 @@ collision optimization, space partitioning (chunks)
 map generation: verschillende random rooms die verbonden zijn (https://gamedevelopment.tutsplus.com/tutorials/create-a-procedurally-generated-dungeon-cave-system--gamedev-10099)
 
 Dag 5 16/10/2020
+map generation
+
+Dag 6 17/10/2020
+Abstract klasses AnimationFrames & Entity

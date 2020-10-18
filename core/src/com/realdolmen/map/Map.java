@@ -7,34 +7,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-    private List<Room> rooms = new ArrayList<>();
-    private List<Corridor> corridors = new ArrayList<>();
-    private int x,y;
-    private int maxRoomWidth, maxRoomHeight, minRoomWidth, minRoomHeight;
-    private int maxRooms, minRooms;
-    private List<Doorway> doors = new ArrayList<>();
+    private final int maxRoomWidth, maxRoomHeight, minRoomWidth, minRoomHeight;
+    private final int mapSize;
+    private final List<Room> rooms;
+    private final List<Room> usedRooms;
+    private final List<Corridor> corridors;
+    private final List<Doorway> doors;
 
-    public Map(int x, int y, int maxRooms, int minRooms, int maxRoomWidth, int maxRoomHeight, int minRoomWidth, int minRoomHeight) {
-        this.x = x / 16;
-        this.y = y / 16;
+    public Map(int mapSize, int maxRoomWidth, int maxRoomHeight, int minRoomWidth, int minRoomHeight) {
         this.maxRoomWidth = maxRoomWidth;
         this.maxRoomHeight = maxRoomHeight;
         this.minRoomWidth = minRoomWidth;
         this.minRoomHeight = minRoomHeight;
-        this.maxRooms = maxRooms;
-        this.minRooms = minRooms;
+        this.mapSize = mapSize;
+
+        rooms = new ArrayList<>();
+        usedRooms = new ArrayList<>();
+        corridors = new ArrayList<>();
+        doors = new ArrayList<>();
     }
 
-    public void generate(Batch batch, MapTiles mapTiles) {
+    public void generate(MapTiles mapTiles) {
         // generate starting room at the center of the map
         int roomWidth = (int)Math.floor(Math.random() * (maxRoomWidth - minRoomWidth) + minRoomWidth);
         int roomHeight = (int)Math.floor(Math.random() * (maxRoomHeight - minRoomHeight) + minRoomWidth);
         Room startingRoom = new Room(-roomWidth / 2 * 16, -roomHeight / 2 * 16, roomWidth, roomHeight);
         rooms.add(startingRoom);
 
-        // generate 4 random rooms to the starting room
-        float roomChance = 100;
-        generateCorridorsWithRooms(startingRoom, roomChance);
+        // generate the rest of the rooms
+        int roomChance;
+        for (int i = 0; i < mapSize; i++) {
+            if (i == 0) {
+                // generate 4 random rooms to the starting room
+                roomChance = 100;
+                generateCorridorsWithRooms(startingRoom, roomChance);
+                usedRooms.add(startingRoom);
+            } else {
+                // get all the new / outer rooms and generate extra rooms
+                roomChance = 50;
+                List<Room> roomsToGenerateOf = new ArrayList<>();
+                for (Room room1 : rooms) {
+                    boolean sameRoom = false;
+                    for (Room room2 : usedRooms) {
+                        if (room1.equals(room2)) {
+                            sameRoom = true;
+                            break;
+                        }
+                    }
+                    if (!sameRoom) {
+                        roomsToGenerateOf.add(room1);
+                    }
+                }
+
+                // generate rooms
+                for (Room room : roomsToGenerateOf) {
+                    generateCorridorsWithRooms(room, roomChance);
+                    usedRooms.add(room);
+                }
+            }
+        }
+
 
         // get all the door coordinates
         List<Coordinates> doorCoordinates = new ArrayList<>();
@@ -44,11 +76,11 @@ public class Map {
 
         // generate everything
         for (Corridor corridor : corridors) {
-            corridor.generate(batch, mapTiles, doorCoordinates);
+            corridor.generate(mapTiles, doorCoordinates);
         }
 
         for (Room room : rooms) {
-            room.generate(batch, mapTiles, doorCoordinates);
+            room.generate(mapTiles, doorCoordinates);
         }
     }
 
@@ -77,11 +109,11 @@ public class Map {
                     newRoom.setRoomDown(true);
                     rooms.add(newRoom);
                     corridors.add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
-                }
 
-                // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "UP");
-                doors.add(doorway);
+                    // add doors
+                    Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "UP");
+                    doors.add(doorway);
+                }
             }
         }
         if (!room.isRoomDown()) {
@@ -104,11 +136,11 @@ public class Map {
                     newRoom.setRoomUp(true);
                     rooms.add(newRoom);
                     corridors.add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
-                }
 
-                // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "DOWN");
-                doors.add(doorway);
+                    // add doors
+                    Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "DOWN");
+                    doors.add(doorway);
+                }
             }
         }
         if (!room.isRoomLeft()) {
@@ -131,11 +163,11 @@ public class Map {
                     newRoom.setRoomRight(true);
                     rooms.add(newRoom);
                     corridors.add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
-                }
 
-                // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "LEFT");
-                doors.add(doorway);
+                    // add doors
+                    Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "LEFT");
+                    doors.add(doorway);
+                }
             }
         }
         if (!room.isRoomRight()) {
@@ -158,11 +190,11 @@ public class Map {
                     newRoom.setRoomLeft(true);
                     rooms.add(newRoom);
                     corridors.add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
-                }
 
-                // add doors
-                Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "RIGHT");
-                doors.add(doorway);
+                    // add doors
+                    Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "RIGHT");
+                    doors.add(doorway);
+                }
             }
         }
     }

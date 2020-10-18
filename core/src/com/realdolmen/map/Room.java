@@ -13,15 +13,11 @@ public class Room {
     private int width;
     private int height;
     private List<Tile> tileList = new ArrayList<>();
-    private Room closestRoom;
-    private List<Room> directlyConnected = new ArrayList<>();
 
     private boolean roomUp = false;
     private boolean roomDown = false;
     private boolean roomLeft = false;
     private boolean roomRight = false;
-
-    private boolean isDoorLocation;
 
     public Room(int x, int y, int width, int height) {
         this.x = x / 16;
@@ -30,21 +26,19 @@ public class Room {
         this.height = height;
     }
 
-    public void generate(Batch batch, MapTiles mapTileset, List<Coordinates> doorCoordinates) {
+    public void generate(MapTiles mapTileset, List<Coordinates> doorCoordinates) {
         for (int i = 0; i <= width; i++) {
             for (int j = 0; j <= height; j++) {
-                isDoorLocation = false;
+                boolean isDoorLocation = false;
                 for (Coordinates coordinates : doorCoordinates) {
-                    if (coordinates.getXTileCoords() + x == i && coordinates.getYTileCoords() + y == j) {
+                    if (coordinates.getXTileCoords() == i + x && coordinates.getYTileCoords() == j + y) {
                         isDoorLocation = true;
-                        System.out.println(coordinates.toString());
                     }
                 }
 
                 // doors
                 if (isDoorLocation) {
-                    tileList.add(new Tile(i + x, j + y, mapTileset.getChest(), false));
-                    System.out.println("allee dan");
+                    tileList.add(new Tile(i + x, j + y, getRandomTile(mapTileset.getFloor()), false));
                 }
 
                 // corners
@@ -126,14 +120,6 @@ public class Room {
         this.y = y;
     }
 
-    public Room getClosestRoom() {
-        return closestRoom;
-    }
-
-    public void setClosestRoom(Room closestRoom) {
-        this.closestRoom = closestRoom;
-    }
-
     public boolean isRoomUp() {
         return roomUp;
     }
@@ -164,17 +150,5 @@ public class Room {
 
     public void setRoomRight(boolean roomRight) {
         this.roomRight = roomRight;
-    }
-
-    @Override
-    public String toString() {
-        return "Room{" +
-                "x=" + x +
-                ", y=" + y +
-                ", width=" + width +
-                ", height=" + height +
-                ", closestRoom=" + closestRoom +
-                ", directlyConnected=" + directlyConnected +
-                '}';
     }
 }

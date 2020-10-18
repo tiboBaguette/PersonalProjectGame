@@ -4,19 +4,17 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapTiles extends ApplicationAdapter {
-    private TextureAtlas textureAtlas;
     private TextureRegion wallCornerTopLeft, wallCornerTopRight, wallCornerBottomLeft, wallCornerBottomRight;
     private List<TextureRegion> wallVertical, wallHorizontal, floor;
     private TextureRegion chest;
 
     public void createTextures() {
-        textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/maps/Tileset.atlas"));
+        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/maps/Tileset.atlas"));
 
         // corners
         wallCornerTopLeft = new TextureRegion(textureAtlas.findRegion("tile000"));

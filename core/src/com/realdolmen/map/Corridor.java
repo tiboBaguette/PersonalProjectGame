@@ -12,8 +12,8 @@ public class Corridor {
         room = new Room(x, y, width, height);
     }
 
-    public void generate(Batch batch, MapTiles mapTileset, List<Coordinates> coordinates) {
-        room.generate(batch, mapTileset, coordinates);
+    public void generate(MapTiles mapTileset, List<Coordinates> coordinates) {
+        room.generate(mapTileset, coordinates);
     }
 
     public void draw(Batch batch) {

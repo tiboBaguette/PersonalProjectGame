@@ -11,9 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.realdolmen.creatures.Player;
+import com.realdolmen.entities.Player;
 import com.realdolmen.map.Map;
-import com.realdolmen.map.Room;
 import com.realdolmen.textures.MapTiles;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -25,7 +24,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     // map
     private MapTiles mapTileset = new MapTiles();
-    private Map map = new Map(1000, 1000,10, 5, 41, 41, 21, 21);
+    private Map map = new Map(5, 41, 41, 21, 21); // mapSize is how many times extra rooms get generated
 
     // camera
     private OrthographicCamera camera;
@@ -40,7 +39,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // map
         mapTileset.createTextures();
-        map.generate(batch, mapTileset);
+        map.generate(mapTileset);
 
         // camera
         float screenWidth = Gdx.graphics.getWidth();
@@ -50,7 +49,7 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.update();
 
         // player
-        player = new Player(0, 0, camera);
+        player = new Player(0, 0, 12, 12, camera);
 
         // animations
         player.createAnimationFrames();
@@ -76,7 +75,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
         stage.addActor(button);
         Gdx.input.setInputProcessor(stage);
-        // end buttton
     }
 
     @Override
@@ -94,7 +92,6 @@ public class MyGdxGame extends ApplicationAdapter {
         // batch
         batch.begin();
         // map
-        //room.draw(batch);
         map.draw(batch);
         // player
         player.draw(batch);

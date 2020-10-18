@@ -2,19 +2,17 @@ package com.realdolmen.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.realdolmen.collisions.CollisionEntity;
+import com.realdolmen.entities.CollisionEntity;
 
 public class Tile {
     private float x;
     private float y;
     private TextureRegion textureRegion;
-    private boolean collidable;
 
     public Tile(float x, float y, TextureRegion textureRegion, boolean collidable) {
         this.x = x;
         this.y = y;
         this.textureRegion = textureRegion;
-        this.collidable = collidable;
 
         if (collidable) {
             createCollisionEntities();
