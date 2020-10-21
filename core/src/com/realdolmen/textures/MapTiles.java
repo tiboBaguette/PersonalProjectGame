@@ -1,6 +1,5 @@
 package com.realdolmen.textures;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapTiles extends ApplicationAdapter {
+public class MapTiles {
     private TextureRegion wallCornerTopLeft, wallCornerTopRight, wallCornerBottomLeft, wallCornerBottomRight;
     private List<TextureRegion> wallVertical, wallHorizontal, floor;
     private TextureRegion chest;

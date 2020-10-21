@@ -1,0 +1,62 @@
+Dag 1 12/10/2020
+project setup (https://libgdx.com/dev/project_generation/)
+libgdx tutorial (https://gamefromscratch.com/libgdx-tutorial-series/)
+Hello world / images inladen
+spritesheet naar apparte images omzetten (https://ezgif.com/sprite-cutter) en naar.atlas omzetten via GDX Texture packer
+animations inladen
+keyboard / mouse input  (0,0 van een image is links vanonder, 0,0 van mouse is links vanboven)
+
+Dag 2 13/10/2020
+buttons
+tiled maps inladen
+camera
+collisions (collisionEntity klasse)
+
+Dag 3 14/10/2020
+automatisch rooms genereren adhv .atlas en collsions van muren etc correct toevoegen.
+
+Dag 4 15/10/2020
+simple room generation afgewerkt
+Player klasse aangemaakt
+collision optimization, space partitioning (chunks)
+map generation: verschillende random rooms die verbonden zijn (https://gamedevelopment.tutsplus.com/tutorials/create-a-procedurally-generated-dungeon-cave-system--gamedev-10099)
+
+Dag 5 16/10/2020
+map generation
+
+Dag 6 17/10/2020
+Abstract klasses AnimationFrames & Entity
+
+Dag 7 19/10/2020
+random vijanden toevoegen aan elke kamer behalve boss/starter room (aantal hangt af van room size)
+
+Dag 8 20/10/2020
+vijanden movement en attacks
+
+Dag 9 21/10/2020
+dependencies binnentrekken met gradle (VisUi dependency https://github.com/kotcrab/vis-ui)
+ui / hud (healthbars ...)
+
+
+
+
+
+
+TODO:
+player / slime stats (health, movespeed ...) + ui    3u
+player attack / shoot & player dash                  3u
+player animations                                    1u
+add boss to bossroom                                 2u
+add spawners in bossroom                             2u
+
+scoreboard                                           1u
+jpa scoreboard                                       ?
+
+optional:
+fix corridor corners
+collisions fix (batch.draw width & height)
+map generation settings
+room generation
+clean code
+
+

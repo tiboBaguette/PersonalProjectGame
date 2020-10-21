@@ -1,18 +1,26 @@
 package com.realdolmen.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.realdolmen.entities.Player;
+import com.realdolmen.entities.Slime;
 import com.realdolmen.textures.MapTiles;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
+    private static final int BOSS_ROOM_SIZE = 50;
+
     private final int maxRoomWidth, maxRoomHeight, minRoomWidth, minRoomHeight;
     private final int mapSize;
     private final List<Room> rooms;
     private final List<Room> usedRooms;
     private final List<Corridor> corridors;
     private final List<Doorway> doors;
+    private Room startingRoom;
+    private Room bossRoom;
+    private List<Slime> slimes;
+    private Player player;
 
     public Map(int mapSize, int maxRoomWidth, int maxRoomHeight, int minRoomWidth, int minRoomHeight) {
         this.maxRoomWidth = maxRoomWidth;
@@ -25,6 +33,7 @@ public class Map {
         usedRooms = new ArrayList<>();
         corridors = new ArrayList<>();
         doors = new ArrayList<>();
+        slimes = new ArrayList<>();
     }
 
     public void generate(MapTiles mapTiles) {
@@ -42,6 +51,7 @@ public class Map {
                 roomChance = 100;
                 generateCorridorsWithRooms(startingRoom, roomChance);
                 usedRooms.add(startingRoom);
+                this.startingRoom = startingRoom;
             } else {
                 // get all the new / outer rooms and generate extra rooms
                 roomChance = 50;
@@ -67,6 +77,29 @@ public class Map {
             }
         }
 
+        // change the room with the highest coordinates into a boss room
+        Room bossRoom = startingRoom;
+        for (Room room : rooms) {
+            int distance1 = (Math.abs(room.getX()) + Math.abs(room.getY()));
+            int distance2 = (Math.abs(bossRoom.getX()) + Math.abs(bossRoom.getY()));
+
+            if (distance1 > distance2) {
+                bossRoom = room;
+            }
+
+        }
+
+        // move the room to fit new size
+        if (bossRoom.getX() < 0) {
+            bossRoom.setX(bossRoom.getX() -  (BOSS_ROOM_SIZE - bossRoom.getWidth()));
+        }
+        if (bossRoom.getY() < 0) {
+            bossRoom.setY(bossRoom.getY() - (BOSS_ROOM_SIZE - bossRoom.getHeight()));
+        }
+        // set new size
+        bossRoom.setWidth(BOSS_ROOM_SIZE);
+        bossRoom.setHeight(BOSS_ROOM_SIZE);
+        this.bossRoom = bossRoom;
 
         // get all the door coordinates
         List<Coordinates> doorCoordinates = new ArrayList<>();
@@ -74,7 +107,7 @@ public class Map {
             doorCoordinates.addAll(doorway.getDoorCoordinates());
         }
 
-        // generate everything
+        // generate all the rooms
         for (Corridor corridor : corridors) {
             corridor.generate(mapTiles, doorCoordinates);
         }
@@ -82,6 +115,23 @@ public class Map {
         for (Room room : rooms) {
             room.generate(mapTiles, doorCoordinates);
         }
+    }
+
+    public List<Slime> addEnemies() {
+        for (Room room : rooms) {
+            if (!room.equals(startingRoom) && !room.equals(bossRoom)) {
+                int roomSize = room.getWidth() * room.getHeight();
+                int amountOfEnemies = (int) Math.floor(Math.random() * roomSize / 50f) + 5; // 5 = min enemies
+
+                for (int i = 0; i < amountOfEnemies; i++) {
+                    int x = (int) Math.floor((Math.random() * (room.getWidth() - 2)) + room.getX() + 2); // 2 is wall distance
+                    int y = (int) Math.floor((Math.random() * (room.getHeight() - 2)) + room.getY() + 2);
+                    Slime slime = new Slime(x * 16, y * 16, 8, 8, player);
+                    slimes.add(slime);
+                }
+            }
+        }
+        return slimes;
     }
 
     private void generateCorridorsWithRooms(Room room, float roomChance) {
@@ -207,6 +257,10 @@ public class Map {
         for (Room room : rooms) {
             room.draw(batch);
         }
+
+        for (Slime slime : slimes) {
+            slime.draw(batch);
+        }
     }
 
     private boolean collision(int roomX, int roomY, int roomWidth, int roomHeight) {
@@ -225,5 +279,13 @@ public class Map {
             }
         }
         return collision;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

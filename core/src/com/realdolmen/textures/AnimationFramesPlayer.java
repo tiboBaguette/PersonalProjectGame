@@ -91,6 +91,14 @@ public class AnimationFramesPlayer extends AnimationFrames {
         playerTakeDamageFrames[2] = (textureAtlas.findRegion("TakeDamage3"));
         playerTakeDamage = new Animation<>(0.125f,playerTakeDamageFrames);
 
+        TextureRegion[] playerDeathFrames = new TextureRegion[5];
+        playerDeathFrames[0] = (textureAtlas.findRegion("Death1"));
+        playerDeathFrames[1] = (textureAtlas.findRegion("Death2"));
+        playerDeathFrames[2] = (textureAtlas.findRegion("Death3"));
+        playerDeathFrames[3] = (textureAtlas.findRegion("Death4"));
+        playerDeathFrames[4] = (textureAtlas.findRegion("Death5"));
+        playerDeath = new Animation<>(0.125f,playerDeathFrames);
+
         playerCurrentAnimation = playerIdleFront;
     }
 

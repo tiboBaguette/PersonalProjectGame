@@ -55,4 +55,14 @@ public abstract class Entity {
     public void setHeight(float height) {
         this.height = height;
     }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                '}';
+    }
 }

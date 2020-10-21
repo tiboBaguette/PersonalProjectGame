@@ -8,9 +8,10 @@ public class CollisionEntity extends Entity {
 
     public CollisionEntity(float x, float y, float width, float height) {
         super(x, y, width, height);
+        collisionEntities.add(this);
     }
 
-    public boolean move(CollisionEntity collisionEntity1, float moveX, float moveY) {
+    public CollisionEntity move(CollisionEntity collisionEntity1, float moveX, float moveY) {
         boolean collision = false;
         for (CollisionEntity collisionEntity2 : collisionEntities) {
             // only check same or neighboring chunks
@@ -23,7 +24,7 @@ public class CollisionEntity extends Entity {
                                 if (collisionEntity1.getY() - collisionEntity1.getHeight() / 2 + moveY < collisionEntity2.getY() + collisionEntity2.getHeight() / 2) {
                                     if (!collisionEntity1.equals(collisionEntity2)) {
                                         // collision
-                                        collision = true;
+                                        return collisionEntity2;
                                     }
                                 }
                             }
@@ -34,13 +35,9 @@ public class CollisionEntity extends Entity {
         }
 
         // move
-        if (!collision) {
-            collisionEntity1.setX(collisionEntity1.getX() + moveX);
-            collisionEntity1.setY(collisionEntity1.getY() + moveY);
-            return true;
-        } else {
-            return false;
-        }
+        collisionEntity1.setX(collisionEntity1.getX() + moveX);
+        collisionEntity1.setY(collisionEntity1.getY() + moveY);
+        return collisionEntity1;
     }
 
     public void addCollisionEntity(CollisionEntity collisionEntity) {
@@ -50,4 +47,6 @@ public class CollisionEntity extends Entity {
     public List<CollisionEntity> getCollisionEntities() {
         return collisionEntities;
     }
+
+
 }
