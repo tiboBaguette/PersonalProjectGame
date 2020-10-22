@@ -5,10 +5,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.textures.AnimationFramesPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Player extends CollisionEntity {
@@ -16,6 +20,7 @@ public class Player extends CollisionEntity {
     private String facing;
     private ProgressBar healthBar;
     private boolean isInAnimation;
+    private List<CollisionEntity> ignoreCollisions;
 
     // stats
     private float health;
@@ -33,7 +38,8 @@ public class Player extends CollisionEntity {
     private Animation<TextureRegion> nextAnimation;
 
     public Player(float x, float y, float width, float height, OrthographicCamera camera) {
-        super(x, y, width, height);
+        super(x, y, width / 3, height / 3);
+        ignoreCollisions = new ArrayList<>();
 
         this.health = 100;
         this.maxHealth = 100;
@@ -54,7 +60,7 @@ public class Player extends CollisionEntity {
     }
 
     public void move(float moveX, float moveY) {
-        if (this.move(this, moveX, moveY).equals(this)) {
+        if (this.move(this, moveX, moveY, ignoreCollisions).equals(this)) {
             camera.translate(moveX, moveY);
         }
     }
@@ -104,7 +110,7 @@ public class Player extends CollisionEntity {
     public void draw(Batch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
         healthBar.setValue(health);
-        batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - this.getWidth(), this.getY() - this.getHeight());
+        batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - 16, this.getY() - 10, this.getWidth() * 3, this.getHeight() * 3);
         setAnimation();
     }
 
@@ -158,6 +164,14 @@ public class Player extends CollisionEntity {
 
     public void setNextAnimation(Animation<TextureRegion> nextAnimation) {
         this.nextAnimation = nextAnimation;
+    }
+
+    public List<CollisionEntity> getIgnoreCollisions() {
+        return ignoreCollisions;
+    }
+
+    public void setIgnoreCollisions(List<CollisionEntity> ignoreCollisions) {
+        this.ignoreCollisions = ignoreCollisions;
     }
 }
 

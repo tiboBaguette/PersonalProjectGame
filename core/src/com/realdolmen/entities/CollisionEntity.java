@@ -11,7 +11,7 @@ public class CollisionEntity extends Entity {
         collisionEntities.add(this);
     }
 
-    public CollisionEntity move(CollisionEntity collisionEntity1, float moveX, float moveY) {
+    public CollisionEntity move(CollisionEntity collisionEntity1, float moveX, float moveY, List<CollisionEntity> ignoreCollisions) {
         boolean collision = false;
         for (CollisionEntity collisionEntity2 : collisionEntities) {
             // only check same or neighboring chunks
@@ -23,8 +23,16 @@ public class CollisionEntity extends Entity {
                             if (collisionEntity1.getY() + collisionEntity1.getHeight() / 2 + moveY > collisionEntity2.getY() - collisionEntity2.getHeight() / 2) {
                                 if (collisionEntity1.getY() - collisionEntity1.getHeight() / 2 + moveY < collisionEntity2.getY() + collisionEntity2.getHeight() / 2) {
                                     if (!collisionEntity1.equals(collisionEntity2)) {
-                                        // collision
-                                        return collisionEntity2;
+                                        collision = true;
+                                        for (CollisionEntity collisionEntity : ignoreCollisions) {
+                                            if (collisionEntity.equals(collisionEntity2)) {
+                                                collision = false;
+                                                break;
+                                            }
+                                        }
+                                        if (collision) {
+                                            return collisionEntity2;
+                                        }
                                     }
                                 }
                             }
@@ -42,6 +50,10 @@ public class CollisionEntity extends Entity {
 
     public void addCollisionEntity(CollisionEntity collisionEntity) {
         collisionEntities.add(collisionEntity);
+    }
+
+    public void removeCollisionEntity() {
+        collisionEntities.remove(this);
     }
 
     public List<CollisionEntity> getCollisionEntities() {

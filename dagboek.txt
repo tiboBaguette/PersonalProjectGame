@@ -36,6 +36,15 @@ vijanden movement en attacks
 Dag 9 21/10/2020
 dependencies binnentrekken met gradle (VisUi dependency https://github.com/kotcrab/vis-ui)
 ui / hud (healthbars ...)
+code structuur (World klasse)
+player attack
+
+Dag 10 22/10/2020
+arrow image rotation fixed
+slime death + animation
+boss
+statistics
+
 
 
 
@@ -43,20 +52,14 @@ ui / hud (healthbars ...)
 
 
 TODO:
-player / slime stats (health, movespeed ...) + ui    3u
-player attack / shoot & player dash                  3u
-player animations                                    1u
-add boss to bossroom                                 2u
-add spawners in bossroom                             2u
-
-scoreboard                                           1u
-jpa scoreboard                                       ?
+player melee attack  & player dash
+customize bossroom (spawners, torches...)
 
 optional:
 fix corridor corners
-collisions fix (batch.draw width & height)
+collisions / draw fix
 map generation settings
 room generation
+slimes cant spawn inside eachother
+arrow hitbox 16x16 -> 16x?
 clean code
-
-

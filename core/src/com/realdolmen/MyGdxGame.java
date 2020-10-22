@@ -6,47 +6,28 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.Arrow;
+import com.realdolmen.entities.CollisionEntity;
 import com.realdolmen.entities.Player;
-import com.realdolmen.entities.Slime;
-import com.realdolmen.map.Map;
-import com.realdolmen.textures.MapTiles;
+import com.realdolmen.map.Tile;
+import com.realdolmen.world.World;
 import com.realdolmen.entities.facingValues;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Stage stage;
-
-    // map
-    private MapTiles mapTileset = new MapTiles();
-    private Map map = new Map(5, 41, 41, 21, 21); // mapSize is how many times extra rooms get generated
-
-    // camera
+    private World world;
     private OrthographicCamera camera;
-
-    // player
-    private Player player;
-
-    // enemies
-    private List<Slime> enemies;
-
-    // arrows
-    private List<Arrow> arrows;
+    private ShapeRenderer shapeRenderer;
 
     @Override
     public void create() {
         // batch
         batch = new SpriteBatch();
-
-        // map
-        mapTileset.createTextures();
-        map.generate(mapTileset);
-        enemies = map.addEnemies();
+        shapeRenderer = new ShapeRenderer();
 
         // camera
         float screenWidth = Gdx.graphics.getWidth();
@@ -55,17 +36,15 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.setToOrtho(false, screenWidth, screenHeight);
         camera.update();
 
+        // world
+        world = new World();
         // player
-        player = new Player(0, 0, 16, 8, camera);
-        map.setPlayer(player);
-        arrows = new ArrayList<>();
+        world.setPlayer(new Player(0, 0, 48, 48, camera));
 
         // ui
         VisUI.load(VisUI.SkinScale.X2);
         stage = new Stage();
-
-        player.createUi(stage);
-
+        world.getPlayer().createUi(stage);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -75,28 +54,16 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        for (Slime slime : enemies) {
-            slime.update(player);
-        }
-        for (Arrow arrow : arrows) {
-            arrow.update();
-        }
-
         // input
         input();
 
-        // batch
+        // update
+        world.update();
+
+        // draw batch
         batch.begin();
-        // map
-        map.draw(batch);
-        // arrows
-        for (Arrow arrow : arrows) {
-            arrow.draw(batch);
-        }
-        // player
-        player.draw(batch);
+        world.draw(batch);
         batch.setProjectionMatrix(camera.combined);
-        // stage
         stage.draw();
         batch.end();
 
@@ -124,61 +91,62 @@ public class MyGdxGame extends ApplicationAdapter {
 
     private void input() {
         // set idle animation
-        if (player.getFacing().equals(facingValues.UP.toString())) {
-            player.setNextAnimation(player.getAnimationFrames().getPlayerIdleBack());
+        if (world.getPlayer().getFacing().equals(facingValues.UP.toString())) {
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerIdleBack());
         } else {
-            player.setNextAnimation(player.getAnimationFrames().getPlayerIdleFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerIdleFront());
         }
 
         // player movement input
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            for (int i = 0; i < player.getMoveSpeed(); i++) {
-                player.move(-1, 0);
+            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
+                world.getPlayer().move(-1, 0);
             }
-            player.setNextAnimation(player.getAnimationFrames().getPlayerRunFront());
-            player.setFacing(facingValues.LEFT.name());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
+            world.getPlayer().setFacing(facingValues.LEFT.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            for (int i = 0; i < player.getMoveSpeed(); i++) {
-                player.move(1, 0);
+            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
+                world.getPlayer().move(1, 0);
             }
-            player.setNextAnimation(player.getAnimationFrames().getPlayerRunFront());
-            player.setFacing(facingValues.RIGHT.name());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
+            world.getPlayer().setFacing(facingValues.RIGHT.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.Z)){
-            for (int i = 0; i < player.getMoveSpeed(); i++) {
-                player.move(0, 1);
+            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
+                world.getPlayer().move(0, 1);
             }
-            player.setNextAnimation(player.getAnimationFrames().getPlayerRunBack());
-            player.setFacing(facingValues.UP.name());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunBack());
+            world.getPlayer().setFacing(facingValues.UP.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            for (int i = 0; i < player.getMoveSpeed(); i++) {
-                player.move(0, -1);
+            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
+                world.getPlayer().move(0, -1);
             }
-            player.setNextAnimation(player.getAnimationFrames().getPlayerRunFront());
-            player.setFacing(facingValues.DOWN.name());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
+            world.getPlayer().setFacing(facingValues.DOWN.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            player.move(0, 40);
+            world.getPlayer().move(0, 40);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            player.move(0, -40);
+            world.getPlayer().move(0, -40);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            player.move(-40, 0);
+            world.getPlayer().move(-40, 0);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            player.move(40, 0);
+            world.getPlayer().move(40, 0);
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            Arrow arrow = new Arrow(10, player.getX(), player.getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-            arrows.add(arrow);
+            Arrow arrow = new Arrow(10, world.getPlayer().getX(), world.getPlayer().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            world.getArrows().add(arrow);
+            world.getStatistics().setArrowsShot(world.getStatistics().getArrowsShot() + 1);
         }
     }
 }

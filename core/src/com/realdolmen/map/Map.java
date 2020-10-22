@@ -1,9 +1,9 @@
 package com.realdolmen.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.realdolmen.entities.Player;
 import com.realdolmen.entities.Slime;
 import com.realdolmen.textures.MapTiles;
+import com.realdolmen.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,21 +19,20 @@ public class Map {
     private final List<Doorway> doors;
     private Room startingRoom;
     private Room bossRoom;
-    private List<Slime> slimes;
-    private Player player;
+    private World world;
 
-    public Map(int mapSize, int maxRoomWidth, int maxRoomHeight, int minRoomWidth, int minRoomHeight) {
+    public Map(int mapSize, int maxRoomWidth, int maxRoomHeight, int minRoomWidth, int minRoomHeight, World world) {
         this.maxRoomWidth = maxRoomWidth;
         this.maxRoomHeight = maxRoomHeight;
         this.minRoomWidth = minRoomWidth;
         this.minRoomHeight = minRoomHeight;
         this.mapSize = mapSize;
+        this.world = world;
 
         rooms = new ArrayList<>();
         usedRooms = new ArrayList<>();
         corridors = new ArrayList<>();
         doors = new ArrayList<>();
-        slimes = new ArrayList<>();
     }
 
     public void generate(MapTiles mapTiles) {
@@ -117,21 +116,25 @@ public class Map {
         }
     }
 
-    public List<Slime> addEnemies() {
+    public void addEnemies() {
         for (Room room : rooms) {
-            if (!room.equals(startingRoom) && !room.equals(bossRoom)) {
+            if (room.equals(bossRoom)) { // spawn boss
+                float x = room.getX() + room.getWidth() / 2f;
+                float y = room.getY() + room.getHeight() / 2f;
+                Slime slime = new Slime(x * 16, y * 16, 16, 16, 4);
+                world.addSlime(slime);
+            } else if (!room.equals(startingRoom)) { // spawn slimes
                 int roomSize = room.getWidth() * room.getHeight();
                 int amountOfEnemies = (int) Math.floor(Math.random() * roomSize / 50f) + 5; // 5 = min enemies
 
                 for (int i = 0; i < amountOfEnemies; i++) {
                     int x = (int) Math.floor((Math.random() * (room.getWidth() - 2)) + room.getX() + 2); // 2 is wall distance
                     int y = (int) Math.floor((Math.random() * (room.getHeight() - 2)) + room.getY() + 2);
-                    Slime slime = new Slime(x * 16, y * 16, 8, 8, player);
-                    slimes.add(slime);
+                    Slime slime = new Slime(x * 16, y * 16, 16, 16, 1);
+                    world.addSlime(slime);
                 }
             }
         }
-        return slimes;
     }
 
     private void generateCorridorsWithRooms(Room room, float roomChance) {
@@ -257,10 +260,6 @@ public class Map {
         for (Room room : rooms) {
             room.draw(batch);
         }
-
-        for (Slime slime : slimes) {
-            slime.draw(batch);
-        }
     }
 
     private boolean collision(int roomX, int roomY, int roomWidth, int roomHeight) {
@@ -279,13 +278,5 @@ public class Map {
             }
         }
         return collision;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }
