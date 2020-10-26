@@ -13,21 +13,25 @@ import com.realdolmen.entities.Arrow;
 import com.realdolmen.entities.CollisionEntity;
 import com.realdolmen.entities.Player;
 import com.realdolmen.map.Tile;
+import com.realdolmen.world.Statistics;
 import com.realdolmen.world.World;
 import com.realdolmen.entities.facingValues;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Stage stage;
     private World world;
     private OrthographicCamera camera;
-    private ShapeRenderer shapeRenderer;
 
     @Override
     public void create() {
         // batch
         batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
 
         // camera
         float screenWidth = Gdx.graphics.getWidth();
@@ -147,6 +151,27 @@ public class MyGdxGame extends ApplicationAdapter {
             Arrow arrow = new Arrow(10, world.getPlayer().getX(), world.getPlayer().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
             world.getArrows().add(arrow);
             world.getStatistics().setArrowsShot(world.getStatistics().getArrowsShot() + 1);
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            EntityManagerFactory emf = null;
+            EntityManager em = null;
+            try {
+                emf = Persistence.createEntityManagerFactory("mysqlcontainernone");
+                em = emf.createEntityManager();
+                EntityTransaction tx = em.getTransaction();
+
+                tx.begin();
+                em.persist(world.getStatistics());
+                tx.commit();
+            } finally {
+                if(em!=null) {
+                    em.close();
+                }
+                if(emf!=null) {
+                    emf.close();
+                }
+            }
         }
     }
 }

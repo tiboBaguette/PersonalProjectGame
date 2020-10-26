@@ -1,6 +1,4 @@
 buildscript {
-    
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -9,10 +7,9 @@ buildscript {
         jcenter()
         google()
     }
+
     dependencies {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
-        
-
     }
 }
 
@@ -56,11 +53,39 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java-library"
 
+    // jpa
+    apply plugin: 'eclipse-wtp'
+    apply plugin: 'war'
+    apply plugin: 'checkstyle'
+
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.kotcrab.vis:vis-ui:$visuiVersion"
+
+        // jpa
+        compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.2.Final'
+        compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.3.2.Final'
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        compile 'postgresql:postgresql:9.1-901-1.jdbc4'
+        compile "javax.ws.rs:jsr311-api:1.1.1"
+        compile 'mysql:mysql-connector-java:8.0.17'
+
+        // JAX-B dependencies for JDK 9+
+        implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+        implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
+    }
+
+    def defaultEncoding = 'UTF-8'
+    tasks.withType(AbstractCompile).each {
+        it.options.encoding = defaultEncoding
+    }
+    tasks.withType(GroovyCompile).each {
+        it.groovyOptions.encoding = defaultEncoding
+    }
+    [compileJava, compileTestJava].each {
+        it.options.compilerArgs += ['-source', '1.8', '-target', '1.8']
     }
 }
 

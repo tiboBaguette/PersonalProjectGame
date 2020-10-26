@@ -1,10 +1,22 @@
 package com.realdolmen.world;
 
+import javax.persistence.*;
+
+@Entity
 public class Statistics {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private long id;
+    @Column(name = "Kills")
     private int kills;
+    @Column(name = "Time")
     private float time;
+    @Column(name = "ArrowsShot")
     private float arrowsShot;
+    @Column(name = "DamageDone")
     private float damageDone;
+    @Column(name = "DamageTaken")
     private float damageTaken;
 
     public Statistics() {
