@@ -6,14 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.Arrow;
-import com.realdolmen.entities.CollisionEntity;
 import com.realdolmen.entities.Player;
-import com.realdolmen.map.Tile;
-import com.realdolmen.world.Statistics;
 import com.realdolmen.world.World;
 import com.realdolmen.entities.facingValues;
 

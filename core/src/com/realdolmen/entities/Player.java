@@ -37,9 +37,16 @@ public class Player extends CollisionEntity {
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion> nextAnimation;
 
+    // draw
+    private float drawWidth;
+    private float drawHeight;
+
     public Player(float x, float y, float width, float height, OrthographicCamera camera) {
-        super(x, y, width / 3, height / 3);
+        super(x, y, 16, 16);
         ignoreCollisions = new ArrayList<>();
+
+        this.drawWidth = width;
+        this.drawHeight = height;
 
         this.health = 100;
         this.maxHealth = 100;
@@ -110,8 +117,10 @@ public class Player extends CollisionEntity {
     public void draw(Batch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
         healthBar.setValue(health);
-        batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - 16, this.getY() - 10, this.getWidth() * 3, this.getHeight() * 3);
         setAnimation();
+
+        super.draw(batch, currentAnimation, drawWidth, drawHeight, false, elapsedTime);
+        //batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - 16, this.getY() - 10, this.getWidth() * 3, this.getHeight() * 3);
     }
 
     public String getFacing() {

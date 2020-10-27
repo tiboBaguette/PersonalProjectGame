@@ -42,8 +42,8 @@ public class Slime extends CollisionEntity {
         super(x, y, width / 2 * stage, height / 2 * stage);
         ignoreCollisions = new ArrayList<>();
 
-        this.drawWidth = width;
-        this.drawHeight = height;
+        this.drawWidth = width * 2 * stage;
+        this.drawHeight = height * 2 * stage;
 
         this.stage = stage;
         this.health = 100 * stage;
@@ -179,29 +179,33 @@ public class Slime extends CollisionEntity {
         elapsedTime += Gdx.graphics.getDeltaTime();
         setAnimation();
 
-        if(!die) {
-            if (stage < 3) {
-                if (flip) {
-                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/2 - this.getHeight()/2*stage, this.getWidth() * -4 , this.getHeight() * 4);
-                } else {
-                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/2 - this.getWidth()/2*stage, this.getY() - drawHeight/2 - this.getHeight()/2*stage, this.getWidth() * 4 , this.getHeight() * 4);
-                }
-            }
-            if (stage == 3) {
-                if (flip) {
-                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/4 - this.getHeight()/2*stage, this.getWidth() * -4 , this.getHeight() * 4);
-                } else {
-                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/4 - this.getWidth()/2*stage, this.getY() - drawHeight/4 - this.getHeight()/2*stage, this.getWidth() * 4 , this.getHeight() * 4);
-                }
-            }
-            if (stage == 4) {
-                if (flip) {
-                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/4 - this.getHeight()/4*stage, this.getWidth() * -4 , this.getHeight() * 4);
-                } else {
-                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/4 - this.getWidth()/4*stage, this.getY() - drawHeight/4 - this.getHeight()/4*stage, this.getWidth() * 4 , this.getHeight() * 4);
-                }
-            }
+        if (!die) {
+            super.draw(batch, currentAnimation, drawWidth, drawHeight, flip, elapsedTime);
         }
+
+//        if(!die) {
+//            if (stage < 3) {
+//                if (flip) {
+//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/2 - this.getHeight()/2*stage, this.getWidth() * -4 , this.getHeight() * 4);
+//                } else {
+//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/2 - this.getWidth()/2*stage, this.getY() - drawHeight/2 - this.getHeight()/2*stage, this.getWidth() * 4 , this.getHeight() * 4);
+//                }
+//            }
+//            if (stage == 3) {
+//                if (flip) {
+//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/4 - this.getHeight()/2*stage, this.getWidth() * -4 , this.getHeight() * 4);
+//                } else {
+//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/4 - this.getWidth()/2*stage, this.getY() - drawHeight/4 - this.getHeight()/2*stage, this.getWidth() * 4 , this.getHeight() * 4);
+//                }
+//            }
+//            if (stage == 4) {
+//                if (flip) {
+//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/4 - this.getHeight()/4*stage, this.getWidth() * -4 , this.getHeight() * 4);
+//                } else {
+//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/4 - this.getWidth()/4*stage, this.getY() - drawHeight/4 - this.getHeight()/4*stage, this.getWidth() * 4 , this.getHeight() * 4);
+//                }
+//            }
+//        }
     }
 
     public float getElapsedTime() {
