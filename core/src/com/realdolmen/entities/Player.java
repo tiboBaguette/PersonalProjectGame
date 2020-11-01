@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.textures.AnimationFramesPlayer;
+import com.realdolmen.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class Player extends CollisionEntity {
         this.moveSpeed = 3;
         this.attackSpeed = 1;
         this.shootSpeed = 1;
-        this.attackDamge = 10;
+        this.attackDamge = 25;
         this.dashCooldown = 3;
 
         this.elapsedTime = 0;
@@ -63,13 +63,17 @@ public class Player extends CollisionEntity {
         this.camera = camera;
         camera.translate(- Gdx.graphics.getWidth() / 2f, - Gdx.graphics.getHeight() / 2f);
 
-        this.facing = facingValues.DOWN.toString();
+        this.facing = FacingValues.DOWN.toString();
     }
 
     public void move(float moveX, float moveY) {
         if (this.move(this, moveX, moveY, ignoreCollisions).equals(this)) {
             camera.translate(moveX, moveY);
         }
+    }
+
+    public void update(World world) {
+
     }
 
     private void createAnimationFrames() {
@@ -181,6 +185,10 @@ public class Player extends CollisionEntity {
 
     public void setIgnoreCollisions(List<CollisionEntity> ignoreCollisions) {
         this.ignoreCollisions = ignoreCollisions;
+    }
+
+    public float getAttackDamge() {
+        return attackDamge;
     }
 }
 

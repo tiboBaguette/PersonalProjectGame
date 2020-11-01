@@ -40,6 +40,7 @@ public class Map {
         int roomWidth = (int)Math.floor(Math.random() * (maxRoomWidth - minRoomWidth) + minRoomWidth);
         int roomHeight = (int)Math.floor(Math.random() * (maxRoomHeight - minRoomHeight) + minRoomWidth);
         Room startingRoom = new Room(-roomWidth / 2 * 16, -roomHeight / 2 * 16, roomWidth, roomHeight);
+        startingRoom.setRoomType(RoomType.STARTING);
         rooms.add(startingRoom);
 
         // generate the rest of the rooms
@@ -47,13 +48,13 @@ public class Map {
         for (int i = 0; i < mapSize; i++) {
             if (i == 0) {
                 // generate 4 random rooms to the starting room
-                roomChance = 100;
+                roomChance = 100; // each side has 100% chance to spawn a new room
                 generateCorridorsWithRooms(startingRoom, roomChance);
                 usedRooms.add(startingRoom);
                 this.startingRoom = startingRoom;
             } else {
                 // get all the new / outer rooms and generate extra rooms
-                roomChance = 50;
+                roomChance = 50; // each side has 50% chance to spawn a new room
                 List<Room> roomsToGenerateOf = new ArrayList<>();
                 for (Room room1 : rooms) {
                     boolean sameRoom = false;
@@ -88,6 +89,9 @@ public class Map {
 
         }
 
+        // set the roomType
+        bossRoom.setRoomType(RoomType.BOSS);
+
         // move the room to fit new size
         if (bossRoom.getX() < 0) {
             bossRoom.setX(bossRoom.getX() -  (BOSS_ROOM_SIZE - bossRoom.getWidth()));
@@ -121,7 +125,7 @@ public class Map {
             if (room.equals(bossRoom)) { // spawn boss
                 float x = room.getX() + room.getWidth() / 2f;
                 float y = room.getY() + room.getHeight() / 2f;
-                Slime slime = new Slime(x * 16, y * 16, 16, 16, 4);
+                Slime slime = new Slime(x * 16, y * 16, 16, 16, 6);
                 world.addSlime(slime);
             } else if (!room.equals(startingRoom)) { // spawn slimes
                 int roomSize = room.getWidth() * room.getHeight();
@@ -139,7 +143,7 @@ public class Map {
 
     private void generateCorridorsWithRooms(Room room, float roomChance) {
         // corridor lenght
-        int lenght1 = 15; // 15 & 10 = between 10 and 25   25 = sum of both lenghts
+        int lenght1 = 15; // 15 & 10 = between 10 and 25   10 = lenght2, 25 = sum of both lenghts
         int length2 = 10;
 
         if (!room.isRoomUp()) {

@@ -13,6 +13,7 @@ public class Room {
     private int width;
     private int height;
     private List<Tile> tileList = new ArrayList<>();
+    private RoomType roomType;
 
     private boolean roomUp = false;
     private boolean roomDown = false;
@@ -24,6 +25,8 @@ public class Room {
         this.y = y / 16;
         this.width = width;
         this.height = height;
+
+        this.roomType = RoomType.NORMAL;
     }
 
     public void generate(MapTiles mapTileset, List<Coordinates> doorCoordinates) {
@@ -150,5 +153,13 @@ public class Room {
 
     public void setRoomRight(boolean roomRight) {
         this.roomRight = roomRight;
+    }
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 }

@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.Arrow;
 import com.realdolmen.entities.Player;
 import com.realdolmen.world.World;
-import com.realdolmen.entities.facingValues;
+import com.realdolmen.entities.FacingValues;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -91,7 +91,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     private void input() {
         // set idle animation
-        if (world.getPlayer().getFacing().equals(facingValues.UP.toString())) {
+        if (world.getPlayer().getFacing().equals(FacingValues.UP.toString())) {
             world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerIdleBack());
         } else {
             world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerIdleFront());
@@ -103,7 +103,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 world.getPlayer().move(-1, 0);
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
-            world.getPlayer().setFacing(facingValues.LEFT.name());
+            world.getPlayer().setFacing(FacingValues.LEFT.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
@@ -111,7 +111,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 world.getPlayer().move(1, 0);
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
-            world.getPlayer().setFacing(facingValues.RIGHT.name());
+            world.getPlayer().setFacing(FacingValues.RIGHT.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.Z)){
@@ -119,7 +119,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 world.getPlayer().move(0, 1);
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunBack());
-            world.getPlayer().setFacing(facingValues.UP.name());
+            world.getPlayer().setFacing(FacingValues.UP.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
@@ -127,7 +127,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 world.getPlayer().move(0, -1);
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
-            world.getPlayer().setFacing(facingValues.DOWN.name());
+            world.getPlayer().setFacing(FacingValues.DOWN.name());
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
@@ -144,11 +144,12 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            Arrow arrow = new Arrow(10, world.getPlayer().getX(), world.getPlayer().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            Arrow arrow = new Arrow(world.getPlayer().getAttackDamge(), world.getPlayer().getX(), world.getPlayer().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
             world.getArrows().add(arrow);
             world.getStatistics().setArrowsShot(world.getStatistics().getArrowsShot() + 1);
         }
 
+        // JPA scoreboard
         if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             EntityManagerFactory emf = null;
             EntityManager em = null;

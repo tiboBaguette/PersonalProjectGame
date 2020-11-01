@@ -79,16 +79,23 @@ public class Slime extends CollisionEntity {
     public void update(World world) {
         // hit player
         if (dealDamage) {
-            world.getPlayer().takeDamage(attackDamage);
-            world.getStatistics().setDamageTaken(world.getStatistics().getDamageTaken() + attackDamage);
-            dealDamage = false;
+            // if the 2nd attack frame is finished deal damage
+            if (currentAnimation.getKeyFrameIndex(elapsedTime) == 2) {
+                world.getPlayer().takeDamage(attackDamage);
+                dealDamage = false;
+
+                // update statistics
+                world.getStatistics().setDamageTaken(world.getStatistics().getDamageTaken() + attackDamage);
+            }
         }
 
         // die
         if (health <= 0) {
             this.removeCollisionEntity();
             if (die) {
+                // update statistics
                 world.getStatistics().setKills(world.getStatistics().getKills() + 1);
+
                 if (stage > 1) { // if stage > 1 spawn 2 more slimes of a lower stage
                     for (int i = 0; i < 2; i++) {
                         Slime slime = new Slime(getX() - 16 + (32*i), getY(), 16, 16, stage-1);
@@ -110,6 +117,7 @@ public class Slime extends CollisionEntity {
         float distanceToPlayer = (float) Math.sqrt(Math.pow(distanceToPlayerX, 2) + Math.pow(distanceToPlayerY, 2));
 
         if (distanceToPlayer < attackDistance * 16) { // attack
+            // get the angle to the player
             float angle = (float) Math.toDegrees(Math.atan2(world.getPlayer().getY() - this.getY(), world.getPlayer().getX() - this.getX()));
 
             if(angle < 0){
@@ -157,18 +165,24 @@ public class Slime extends CollisionEntity {
     }
 
     private void setAnimation() {
-        if (currentAnimation.isAnimationFinished(elapsedTime)) {
-            // if attack is finished
-            if (currentAnimation.equals(animationFramesSlimeGreen.getSlimeAttackDown()) ||
+        // if attack is finished
+        if (currentAnimation.equals(animationFramesSlimeGreen.getSlimeAttackDown()) ||
                 currentAnimation.equals(animationFramesSlimeGreen.getSlimeAttackUp()) ||
                 currentAnimation.equals(animationFramesSlimeGreen.getSlimeAttackSide())) {
-                // todo check if player is in attack range
+            // deal damage at the 2nd frame in the attack animation
+            if (currentAnimation.getKeyFrameIndex(elapsedTime) == 1) {
                 dealDamage = true;
+                System.out.println("Yep cock");
             }
+        }
+
+        if (currentAnimation.isAnimationFinished(elapsedTime)) {
             // if death is finished
             if (currentAnimation.equals(animationFramesSlimeGreen.getSlimeDeath())) {
                 die = true;
             }
+
+            // set the next animation
             elapsedTime = 0;
             currentAnimation = nextAnimation;
             isInAnimation = false;

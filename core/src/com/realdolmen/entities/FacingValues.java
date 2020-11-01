@@ -1,6 +1,6 @@
 package com.realdolmen.entities;
 
-public enum facingValues {
+public enum FacingValues {
     UP,
     DOWN,
     LEFT,

@@ -10,6 +10,7 @@ public class Corridor {
 
     public Corridor(int x, int y, int width, int height) {
         room = new Room(x, y, width, height);
+        room.setRoomType(RoomType.CORRIDOR);
     }
 
     public void generate(MapTiles mapTileset, List<Coordinates> coordinates) {

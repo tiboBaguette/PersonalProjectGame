@@ -12,7 +12,7 @@ public class CollisionEntity extends Entity {
     }
 
     public CollisionEntity move(CollisionEntity collisionEntity1, float moveX, float moveY, List<CollisionEntity> ignoreCollisions) {
-        boolean collision = false;
+        boolean collision;
         for (CollisionEntity collisionEntity2 : collisionEntities) {
             // only check same or neighboring chunks
             if (Math.abs(collisionEntity1.getChunkX() - collisionEntity2.getChunkX()) <= 1) {
@@ -22,14 +22,17 @@ public class CollisionEntity extends Entity {
                         if (collisionEntity1.getX() - collisionEntity1.getWidth() / 2 + moveX < collisionEntity2.getX() + collisionEntity2.getWidth() / 2) {
                             if (collisionEntity1.getY() + collisionEntity1.getHeight() / 2 + moveY > collisionEntity2.getY() - collisionEntity2.getHeight() / 2) {
                                 if (collisionEntity1.getY() - collisionEntity1.getHeight() / 2 + moveY < collisionEntity2.getY() + collisionEntity2.getHeight() / 2) {
+                                    // check if its not the same entity
                                     if (!collisionEntity1.equals(collisionEntity2)) {
                                         collision = true;
+                                        // if the entity is in ignoreCollisions set collision to false
                                         for (CollisionEntity collisionEntity : ignoreCollisions) {
                                             if (collisionEntity.equals(collisionEntity2)) {
                                                 collision = false;
                                                 break;
                                             }
                                         }
+                                        // if there was a collision return the entity
                                         if (collision) {
                                             return collisionEntity2;
                                         }

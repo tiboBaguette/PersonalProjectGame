@@ -1,1 +1,1 @@
-LibGdx Game
+To run open build.gradle as a project and run DesktopLauncher.java
