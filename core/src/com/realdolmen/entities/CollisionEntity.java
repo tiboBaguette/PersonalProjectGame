@@ -63,5 +63,4 @@ public class CollisionEntity extends Entity {
         return collisionEntities;
     }
 
-
 }

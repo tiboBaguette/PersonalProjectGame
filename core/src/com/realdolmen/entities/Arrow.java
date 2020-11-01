@@ -23,9 +23,8 @@ public class Arrow extends CollisionEntity {
     private List<CollisionEntity> ignoreCollisions;
 
     public Arrow(float damage, float startX, float startY, float targetX, float targetY) {
-        super(startX, startY, WIDTH, HEIGHT);
+        super(startX, startY, WIDTH / 4f, HEIGHT / 4f);
         ignoreCollisions = new ArrayList<>();
-
 
         this.damage = damage;
         this.speed = 8;
@@ -40,7 +39,6 @@ public class Arrow extends CollisionEntity {
         ignoreCollisions.add(world.getPlayer());
         CollisionEntity entity = move(speedX, speedY, ignoreCollisions); // move returns this if there are no collisions or the entity it hit
         if (!entity.equals(this)) {
-            world.removeArrow(this);
             // check if it hit an enemy
             for (Slime slime : world.getSlimes()) {
                 if (entity.equals(slime)) {
@@ -48,6 +46,8 @@ public class Arrow extends CollisionEntity {
                     world.getStatistics().setDamageDone(world.getStatistics().getDamageDone() + damage);
                 }
             }
+            // remove the arrow
+            world.removeArrow(this);
         }
     }
 
@@ -56,7 +56,6 @@ public class Arrow extends CollisionEntity {
     }
 
     private void calculateVelocity(float x2, float y2) {
-        // todo player width & height
         this.angle = (float) Math.atan2(y2 - Gdx.graphics.getHeight() / 2f, x2 - Gdx.graphics.getWidth() / 2f);
         this.speedX = (float) (speed * Math.cos(angle));
         this.speedY = (float) (speed * Math.sin(angle));

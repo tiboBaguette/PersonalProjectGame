@@ -53,8 +53,6 @@ public class Slime extends CollisionEntity {
         this.attackSpeed = 1;
         this.attackDistance = (float) 1.5 * stage;
 
-
-
         this.elapsedTime = 0;
         this.animationFramesSlimeGreen = new AnimationFramesSlimeGreen();
         createAnimationFrames();
@@ -172,7 +170,6 @@ public class Slime extends CollisionEntity {
             // deal damage at the 2nd frame in the attack animation
             if (currentAnimation.getKeyFrameIndex(elapsedTime) == 1) {
                 dealDamage = true;
-                System.out.println("Yep cock");
             }
         }
 
@@ -196,30 +193,6 @@ public class Slime extends CollisionEntity {
         if (!die) {
             super.draw(batch, currentAnimation, drawWidth, drawHeight, flip, elapsedTime);
         }
-
-//        if(!die) {
-//            if (stage < 3) {
-//                if (flip) {
-//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/2 - this.getHeight()/2*stage, this.getWidth() * -4 , this.getHeight() * 4);
-//                } else {
-//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/2 - this.getWidth()/2*stage, this.getY() - drawHeight/2 - this.getHeight()/2*stage, this.getWidth() * 4 , this.getHeight() * 4);
-//                }
-//            }
-//            if (stage == 3) {
-//                if (flip) {
-//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/4 - this.getHeight()/2*stage, this.getWidth() * -4 , this.getHeight() * 4);
-//                } else {
-//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/4 - this.getWidth()/2*stage, this.getY() - drawHeight/4 - this.getHeight()/2*stage, this.getWidth() * 4 , this.getHeight() * 4);
-//                }
-//            }
-//            if (stage == 4) {
-//                if (flip) {
-//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() + drawWidth*stage, this.getY() - drawHeight/4 - this.getHeight()/4*stage, this.getWidth() * -4 , this.getHeight() * 4);
-//                } else {
-//                    batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - drawWidth/4 - this.getWidth()/4*stage, this.getY() - drawHeight/4 - this.getHeight()/4*stage, this.getWidth() * 4 , this.getHeight() * 4);
-//                }
-//            }
-//        }
     }
 
     public float getElapsedTime() {
