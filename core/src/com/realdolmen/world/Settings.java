@@ -2,11 +2,11 @@ package com.realdolmen.world;
 
 public class Settings {
     // map settings
-    private int mapSize;
-    private int maxRoomWidth;
-    private int maxRoomHeight;
-    private int minRoomWidth;
-    private int minRoomHeight;
+    private final int mapSize;
+    private final int maxRoomWidth;
+    private final int maxRoomHeight;
+    private final int minRoomWidth;
+    private final int minRoomHeight;
 
     public Settings() {
         // map settings

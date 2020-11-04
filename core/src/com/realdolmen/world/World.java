@@ -6,7 +6,7 @@ import com.realdolmen.entities.Arrow;
 import com.realdolmen.entities.Player;
 import com.realdolmen.entities.Slime;
 import com.realdolmen.map.Map;
-import com.realdolmen.textures.MapTiles;
+import com.realdolmen.map.mapGenerator.MapGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ public class World {
     private List<Arrow> arrows;
     private Statistics statistics;
     private Settings settings;
+    private MapGenerator mapGenerator;
 
     public World() {
         this.arrows = new ArrayList<>();
@@ -25,17 +26,8 @@ public class World {
         this.statistics = new Statistics();
         this.settings = new Settings();
 
-        // map
-        MapTiles mapTileset = new MapTiles();
-        mapTileset.createTextures();
-        this.map = new Map(settings.getMapSize(),
-                            settings.getMaxRoomWidth(),
-                            settings.getMaxRoomHeight(),
-                            settings.getMinRoomWidth(),
-                            settings.getMinRoomHeight(),
-                            this);
-        this.map.generate(mapTileset);
-        this.map.addEnemies();
+        mapGenerator = new MapGenerator(this);
+        this.map = mapGenerator.generateNewMap();
     }
 
     public void update() {
@@ -129,5 +121,13 @@ public class World {
 
     public void setStatistics(Statistics statistics) {
         this.statistics = statistics;
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 }
