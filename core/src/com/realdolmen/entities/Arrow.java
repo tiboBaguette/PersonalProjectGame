@@ -20,19 +20,30 @@ public class Arrow extends CollisionEntity {
     private float speed;
     private float speedX;
     private float speedY;
+    private float xOffset;
+    private float yOffset;
     private List<CollisionEntity> ignoreCollisions;
 
     public Arrow(float damage, float startX, float startY, float targetX, float targetY) {
-        super(startX, startY, WIDTH / 4f, HEIGHT / 4f);
+        // create the collision entity with /2 width & height
+        super(startX, startY, WIDTH / 2f, HEIGHT / 2f);
         ignoreCollisions = new ArrayList<>();
 
-        this.damage = damage;
-        this.speed = 8;
+        // set the image of the arrow
         this.texture = new Texture(Gdx.files.internal("core/assets/images/arrow.png"));
-        this.angle = 0;
         sprite = new Sprite(texture);
 
+        
+        this.damage = damage;
+        this.speed = 8;
         calculateVelocity(targetX, targetY);
+
+        // set the collision box at the tip of the arrow
+        float offset = WIDTH/2f;
+        this.xOffset = offset * (float) Math.cos(angle);
+        this.yOffset = offset * (float) Math.sin(angle);
+        this.setX(getX() + xOffset);
+        this.setY(getY() + yOffset);
     }
 
     public void update(World world) {
@@ -63,7 +74,17 @@ public class Arrow extends CollisionEntity {
     }
 
     public void draw(Batch batch) {
-        sprite.setPosition(this.getX(), this.getY());
+        sprite.setPosition(this.getActualX(), this.getActualY());
         sprite.draw(batch);
+    }
+
+
+    // the collision entity is at the tip of the arrow this return the actual value for drawing etc
+    public float getActualX() {
+        return super.getX() - xOffset;
+    }
+
+    public float getActualY() {
+        return super.getY() - yOffset;
     }
 }
