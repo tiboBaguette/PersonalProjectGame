@@ -30,6 +30,7 @@ public abstract class Entity {
 
     void draw(Batch batch, Animation<TextureRegion> currentAnimation, float drawWidth, float drawHeight, boolean flip, float elapsedTime) {
         // draw the center of the image at the center of the collision box
+        // getWidth = collision width, drawWidth = TexturedRegion width
         float x = getX() + getWidth()/2 - drawWidth/2;
         float y = getY() + getHeight()/2 - drawHeight/2;
         float width = drawWidth;

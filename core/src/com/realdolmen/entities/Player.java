@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Player extends CollisionEntity {
+public class Player extends Creature {
     private final OrthographicCamera camera;
     private String facing;
     private ProgressBar healthBar;
@@ -23,12 +23,6 @@ public class Player extends CollisionEntity {
     private List<CollisionEntity> ignoreCollisions;
 
     // stats
-    private float health;
-    private float maxHealth;
-    private float moveSpeed;
-    private float attackSpeed;
-    private float shootSpeed;
-    private float attackDamge;
     private float dashCooldown;
 
     // animations
@@ -48,13 +42,15 @@ public class Player extends CollisionEntity {
         this.drawWidth = width;
         this.drawHeight = height;
 
-        this.health = 100;
-        this.maxHealth = 100;
-        this.moveSpeed = 3;
-        this.attackSpeed = 1;
-        this.shootSpeed = 1;
-        this.attackDamge = 25;
+        // player variables
         this.dashCooldown = 3;
+
+        // creature variables
+        setMaxHealth(100);
+        setHealth(100);
+        setMoveSpeed(3);
+        setAttackSpeed(1);
+        setAttackDamage(25);
 
         this.elapsedTime = 0;
         this.animationFramesPlayer = new AnimationFramesPlayer();
@@ -85,7 +81,7 @@ public class Player extends CollisionEntity {
     public void createUi(Stage stage) {
         // healthbar
         healthBar = new ProgressBar(0f, 100f, 1f, false, VisUI.getSkin());
-        healthBar.setValue(health);
+        healthBar.setValue(getHealth());
         healthBar.setColor(0, 1, 0, 1);
         healthBar.setWidth(Gdx.graphics.getWidth() / 3f);
         healthBar.setName("test");
@@ -93,8 +89,8 @@ public class Player extends CollisionEntity {
     }
 
     public void takeDamage(float amount) {
-        health -= amount;
-        if (health <= 0) {
+        setHealth(getHealth() - amount);
+        if (getHealth() <= 0) {
             currentAnimation = animationFramesPlayer.getPlayerDeath();
             elapsedTime = 0;
             isInAnimation = true;
@@ -120,7 +116,7 @@ public class Player extends CollisionEntity {
 
     public void draw(Batch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
-        healthBar.setValue(health);
+        healthBar.setValue(getHealth());
         setAnimation();
 
         super.draw(batch, currentAnimation, drawWidth, drawHeight, false, elapsedTime);
@@ -151,24 +147,8 @@ public class Player extends CollisionEntity {
         this.currentAnimation = currentAnimation;
     }
 
-    public float getMoveSpeed() {
-        return moveSpeed;
-    }
-
-    public void setMoveSpeed(float moveSpeed) {
-        this.moveSpeed = moveSpeed;
-    }
-
-    public float getHealth() {
-        return health;
-    }
-
     public float getHealthPercentage() {
-        return health / maxHealth;
-    }
-
-    public void setHealth(float health) {
-        this.health = health;
+        return getHealth() / getMaxHealth();
     }
 
     public Animation<TextureRegion> getNextAnimation() {
@@ -185,10 +165,6 @@ public class Player extends CollisionEntity {
 
     public void setIgnoreCollisions(List<CollisionEntity> ignoreCollisions) {
         this.ignoreCollisions = ignoreCollisions;
-    }
-
-    public float getAttackDamge() {
-        return attackDamge;
     }
 }
 

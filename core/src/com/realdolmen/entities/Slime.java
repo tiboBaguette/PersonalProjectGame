@@ -11,7 +11,7 @@ import com.realdolmen.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Slime extends CollisionEntity {
+public class Slime extends Enemy {
     // animations
     private float elapsedTime;
     private AnimationFramesSlimeGreen animationFramesSlimeGreen;
@@ -25,11 +25,6 @@ public class Slime extends CollisionEntity {
     private List<CollisionEntity> ignoreCollisions;
 
     // stats
-    private float health;
-    private float maxHealth;
-    private float moveSpeed;
-    private float attackSpeed;
-    private float attackDamage;
     private float attackDistance;
     private int stage;
 
@@ -45,13 +40,16 @@ public class Slime extends CollisionEntity {
         this.drawWidth = width * 2 * stage;
         this.drawHeight = height * 2 * stage;
 
+        // slime variables
         this.stage = stage;
-        this.health = 100 * stage;
-        this.maxHealth = 100 * stage;
-        this.attackDamage = 5 * stage/2f;
-        this.moveSpeed = 2;
-        this.attackSpeed = 1;
         this.attackDistance = (float) 1.5 * stage;
+
+        // creature variables
+        setMaxHealth(100 * stage);
+        setHealth(100 * stage);
+        setAttackDamage(5 * stage /2f);
+        setMoveSpeed(2);
+        setAttackSpeed(1);
 
         this.elapsedTime = 0;
         this.animationFramesSlimeGreen = new AnimationFramesSlimeGreen();
@@ -77,18 +75,19 @@ public class Slime extends CollisionEntity {
     public void update(World world) {
         // hit player
         if (dealDamage) {
+            // todo check if player is still in range
             // if the 2nd attack frame is finished deal damage
             if (currentAnimation.getKeyFrameIndex(elapsedTime) == 2) {
-                world.getPlayer().takeDamage(attackDamage);
+                world.getPlayer().takeDamage(getAttackDamage());
                 dealDamage = false;
 
                 // update statistics
-                world.getStatistics().setDamageTaken(world.getStatistics().getDamageTaken() + attackDamage);
+                world.getStatistics().setDamageTaken(world.getStatistics().getDamageTaken() + getAttackDamage());
             }
         }
 
         // die
-        if (health <= 0) {
+        if (getHealth() <= 0) {
             this.removeCollisionEntity();
             if (die) {
                 // update statistics
@@ -142,8 +141,8 @@ public class Slime extends CollisionEntity {
             }
         } else if (distanceToPlayer < 24 * 16 && !isInAnimation) { // move to player
             nextAnimation = animationFramesSlimeGreen.getSlimeMove();
-            float moveX = moveSpeed * (distanceToPlayerX / distanceToPlayer);
-            float moveY = moveSpeed * (distanceToPlayerY / distanceToPlayer);
+            float moveX = getMoveSpeed() * (distanceToPlayerX / distanceToPlayer);
+            float moveY = getMoveSpeed() * (distanceToPlayerY / distanceToPlayer);
             move(moveX, 0);
             move(0, moveY);
         } else if (!isInAnimation) { // idle
@@ -153,9 +152,9 @@ public class Slime extends CollisionEntity {
 
     public void takeDamage(float damage) {
         // todo take damage animations
-        if (health > 0) {
-            this.health -= damage;
-            if (health <= 0) {
+        if (getHealth() > 0) {
+            setHealth(getHealth() - damage);
+            if (getHealth() <= 0) {
                 elapsedTime = 0;
                 currentAnimation = animationFramesSlimeGreen.getSlimeDeath();
             }
@@ -273,46 +272,6 @@ public class Slime extends CollisionEntity {
 
     public void setIgnoreCollisions(List<CollisionEntity> ignoreCollisions) {
         this.ignoreCollisions = ignoreCollisions;
-    }
-
-    public float getHealth() {
-        return health;
-    }
-
-    public void setHealth(float health) {
-        this.health = health;
-    }
-
-    public float getMaxHealth() {
-        return maxHealth;
-    }
-
-    public void setMaxHealth(float maxHealth) {
-        this.maxHealth = maxHealth;
-    }
-
-    public float getMoveSpeed() {
-        return moveSpeed;
-    }
-
-    public void setMoveSpeed(float moveSpeed) {
-        this.moveSpeed = moveSpeed;
-    }
-
-    public float getAttackSpeed() {
-        return attackSpeed;
-    }
-
-    public void setAttackSpeed(float attackSpeed) {
-        this.attackSpeed = attackSpeed;
-    }
-
-    public float getAttackDamage() {
-        return attackDamage;
-    }
-
-    public void setAttackDamage(float attackDamage) {
-        this.attackDamage = attackDamage;
     }
 
     public int getStage() {

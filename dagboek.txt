@@ -55,6 +55,7 @@ jpa scoreboard
 
 
 TODO:
+move map generation from Map.java to seperate classes
 player melee attack  & player dash
 customize bossroom (spawners, torches...)
 fix corridor corners

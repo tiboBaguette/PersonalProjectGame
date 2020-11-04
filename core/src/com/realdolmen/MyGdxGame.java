@@ -144,7 +144,7 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            Arrow arrow = new Arrow(world.getPlayer().getAttackDamge(), world.getPlayer().getX(), world.getPlayer().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            Arrow arrow = new Arrow(world.getPlayer().getAttackDamage(), world.getPlayer().getX(), world.getPlayer().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
             world.getArrows().add(arrow);
             world.getStatistics().setArrowsShot(world.getStatistics().getArrowsShot() + 1);
         }
