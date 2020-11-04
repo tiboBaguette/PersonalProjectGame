@@ -33,7 +33,6 @@ public class Arrow extends CollisionEntity {
         this.texture = new Texture(Gdx.files.internal("core/assets/images/arrow.png"));
         sprite = new Sprite(texture);
 
-        
         this.damage = damage;
         this.speed = 8;
         calculateVelocity(targetX, targetY);

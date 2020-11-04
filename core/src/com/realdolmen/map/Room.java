@@ -162,4 +162,8 @@ public class Room {
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
+
+    public List<Tile> getTileList() {
+        return tileList;
+    }
 }

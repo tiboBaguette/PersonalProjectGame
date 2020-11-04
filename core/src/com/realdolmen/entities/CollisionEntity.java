@@ -1,5 +1,7 @@
 package com.realdolmen.entities;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,4 +65,8 @@ public class CollisionEntity extends Entity {
         return collisionEntities;
     }
 
+    public void debugCollisions(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(1, 1, 0, 1);
+        shapeRenderer.rect(getX(), getY(), getWidth(), getHeight());
+    }
 }

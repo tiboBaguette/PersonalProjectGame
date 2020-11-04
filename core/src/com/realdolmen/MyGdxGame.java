@@ -6,12 +6,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.VisUI;
-import com.realdolmen.entities.Arrow;
-import com.realdolmen.entities.Player;
+import com.realdolmen.entities.*;
 import com.realdolmen.world.World;
-import com.realdolmen.entities.FacingValues;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -66,6 +65,9 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         stage.draw();
         batch.end();
+
+        // debug collisions
+        debugCollisions();
 
         // camera
         camera.update();
@@ -170,5 +172,18 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
             }
         }
+    }
+
+    private void debugCollisions() {
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        for (CollisionEntity collisionEntity : world.getPlayer().getCollisionEntities()) {
+            collisionEntity.debugCollisions(shapeRenderer);
+        }
+        
+        shapeRenderer.end();
     }
 }
