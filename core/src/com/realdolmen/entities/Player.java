@@ -36,7 +36,7 @@ public class Player extends Creature {
     private float drawHeight;
 
     public Player(float x, float y, float width, float height, OrthographicCamera camera) {
-        super(x, y, 32, 32);
+        super(x, y, 16, 16);
         ignoreCollisions = new ArrayList<>();
 
         this.drawWidth = width;

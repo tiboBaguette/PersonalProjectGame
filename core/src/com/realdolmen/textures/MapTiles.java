@@ -16,31 +16,31 @@ public class MapTiles {
         TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/maps/Tileset.atlas"));
 
         // corners
-        wallCornerTopLeft = new TextureRegion(textureAtlas.findRegion("tile000"));
-        wallCornerTopRight = new TextureRegion(textureAtlas.findRegion("tile003"));
-        wallCornerBottomLeft = new TextureRegion(textureAtlas.findRegion("tile048"));
-        wallCornerBottomRight = new TextureRegion(textureAtlas.findRegion("tile051"));
+        wallCornerTopLeft = new TextureRegion(textureAtlas.findRegion("tile008"));
+        wallCornerTopRight = new TextureRegion(textureAtlas.findRegion("tile011"));
+        wallCornerBottomLeft = new TextureRegion(textureAtlas.findRegion("tile056"));
+        wallCornerBottomRight = new TextureRegion(textureAtlas.findRegion("tile059"));
 
         // vertical walls
         wallVertical = new ArrayList<>();
-        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile004")));
-        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile032")));
-        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile033")));
-        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile035")));
+        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile012")));
+        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile040")));
+        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile041")));
+        wallVertical.add(new TextureRegion(textureAtlas.findRegion("tile043")));
 
         // horizontal walls
         wallHorizontal = new ArrayList<>();
-        wallHorizontal.add(new TextureRegion(textureAtlas.findRegion("tile002")));
-        wallHorizontal.add(new TextureRegion(textureAtlas.findRegion("tile036")));
-        wallHorizontal.add(new TextureRegion(textureAtlas.findRegion("tile037")));
+        wallHorizontal.add(new TextureRegion(textureAtlas.findRegion("tile010")));
+        wallHorizontal.add(new TextureRegion(textureAtlas.findRegion("tile044")));
+        wallHorizontal.add(new TextureRegion(textureAtlas.findRegion("tile045")));
 
         // floor
         floor = new ArrayList<>();
-        floor.add(new TextureRegion(textureAtlas.findRegion("tile005")));
-        floor.add(new TextureRegion(textureAtlas.findRegion("tile005")));
-        floor.add(new TextureRegion(textureAtlas.findRegion("tile006")));
-        floor.add(new TextureRegion(textureAtlas.findRegion("tile021")));
-        floor.add(new TextureRegion(textureAtlas.findRegion("tile022")));
+        floor.add(new TextureRegion(textureAtlas.findRegion("tile013")));
+        floor.add(new TextureRegion(textureAtlas.findRegion("tile013")));
+        floor.add(new TextureRegion(textureAtlas.findRegion("tile014")));
+        floor.add(new TextureRegion(textureAtlas.findRegion("tile029")));
+        floor.add(new TextureRegion(textureAtlas.findRegion("tile030")));
 
         // chest
         chest = new TextureRegion(textureAtlas.findRegion("tile192"));

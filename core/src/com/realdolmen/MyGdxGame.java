@@ -67,7 +67,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.end();
 
         // debug collisions
-        debugCollisions();
+        //debugCollisions();
 
         // camera
         camera.update();
@@ -148,8 +148,8 @@ public class MyGdxGame extends ApplicationAdapter {
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
             // create a new arrow on the player location
             Arrow arrow = new Arrow(world.getPlayer().getAttackDamage(),
-                    world.getPlayer().getX() + world.getPlayer().getWidth()/2,
-                    world.getPlayer().getY() + world.getPlayer().getHeight()/2,
+                    world.getPlayer().getX(),
+                    world.getPlayer().getY(),
                     Gdx.input.getX(),
                     Gdx.graphics.getHeight() - Gdx.input.getY());
 
