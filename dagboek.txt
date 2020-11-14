@@ -55,13 +55,12 @@ jpa scoreboard
 
 
 TODO:
-move map generation from Map.java to seperate classes
 player melee attack  & player dash
 customize bossroom (spawners, torches...)
 fix corridor corners
-collisions / draw fix (draw image at center of collision box)
 map generation settings
 room generation
 slimes cant spawn inside eachother
 arrow hitbox 16x16 -> 16x? or small hitbox at arrow tip
+map generation connect parallel rooms (not 100% chance)
 clean code

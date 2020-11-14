@@ -25,12 +25,12 @@ public class Slime extends Enemy {
     private List<CollisionEntity> ignoreCollisions;
 
     // stats
-    private float attackDistance;
+    private final float attackDistance;
     private int stage;
 
     // draw
-    private float drawWidth;
-    private float drawHeight;
+    private final float drawWidth;
+    private final float drawHeight;
 
 
     public Slime(float x, float y, float width, float height, int stage) {
@@ -95,7 +95,7 @@ public class Slime extends Enemy {
 
                 if (stage > 1) { // if stage > 1 spawn 2 more slimes of a lower stage
                     for (int i = 0; i < 2; i++) {
-                        Slime slime = new Slime(getX() - 16 + (32*i), getY(), 16, 16, stage-1);
+                        Slime slime = new Slime(getX(), getY(), 16, 16, stage-1);
                         // prevent slimes from spawning inside eachother
                         while (!slime.move(1, 0).equals(slime)) {
                             slime.setX(slime.getX()+1);
@@ -104,6 +104,7 @@ public class Slime extends Enemy {
                     }
                 }
 
+                // remove the slime
                 world.removeSlime(this);
             }
         }

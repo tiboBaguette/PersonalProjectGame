@@ -20,10 +20,10 @@ public class CollisionEntity extends Entity {
             if (Math.abs(collisionEntity1.getChunkX() - collisionEntity2.getChunkX()) <= 1) {
                 if (Math.abs(collisionEntity1.getChunkY() - collisionEntity2.getChunkY()) <= 1) {
                     // check for collisions
-                    if (collisionEntity1.getX() + collisionEntity1.getWidth() / 2 + moveX > collisionEntity2.getX() - collisionEntity2.getWidth() / 2) {
-                        if (collisionEntity1.getX() - collisionEntity1.getWidth() / 2 + moveX < collisionEntity2.getX() + collisionEntity2.getWidth() / 2) {
-                            if (collisionEntity1.getY() + collisionEntity1.getHeight() / 2 + moveY > collisionEntity2.getY() - collisionEntity2.getHeight() / 2) {
-                                if (collisionEntity1.getY() - collisionEntity1.getHeight() / 2 + moveY < collisionEntity2.getY() + collisionEntity2.getHeight() / 2) {
+                    if (collisionEntity1.getX() + collisionEntity1.getWidth() + moveX > collisionEntity2.getX()) {
+                        if (collisionEntity1.getX() + moveX < collisionEntity2.getX() + collisionEntity2.getWidth()) {
+                            if (collisionEntity1.getY() + collisionEntity1.getHeight() + moveY > collisionEntity2.getY()) {
+                                if (collisionEntity1.getY() + moveY < collisionEntity2.getY() + collisionEntity2.getHeight()) {
                                     // check if its not the same entity
                                     if (!collisionEntity1.equals(collisionEntity2)) {
                                         collision = true;

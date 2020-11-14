@@ -135,7 +135,7 @@ public class MapGenerator {
             if (room.equals(bossRoom)) { // spawn boss
                 float x = room.getX() + room.getWidth() / 2f;
                 float y = room.getY() + room.getHeight() / 2f;
-                Slime slime = new Slime(x * 16, y * 16, 16, 16, 6);
+                Slime slime = new Slime(x * 16, y * 16, 16, 16, 5);
                 world.addSlime(slime);
             } else if (!room.equals(startingRoom)) { // spawn slimes
                 int roomSize = room.getWidth() * room.getHeight();

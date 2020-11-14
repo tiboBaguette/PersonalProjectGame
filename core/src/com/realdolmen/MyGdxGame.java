@@ -146,7 +146,14 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            Arrow arrow = new Arrow(world.getPlayer().getAttackDamage(), world.getPlayer().getX(), world.getPlayer().getY(), Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            // create a new arrow on the player location
+            Arrow arrow = new Arrow(world.getPlayer().getAttackDamage(),
+                    world.getPlayer().getX() + world.getPlayer().getWidth()/2,
+                    world.getPlayer().getY() + world.getPlayer().getHeight()/2,
+                    Gdx.input.getX(),
+                    Gdx.graphics.getHeight() - Gdx.input.getY());
+
+            // add the arrow to the world and update statistics
             world.getArrows().add(arrow);
             world.getStatistics().setArrowsShot(world.getStatistics().getArrowsShot() + 1);
         }
@@ -183,7 +190,7 @@ public class MyGdxGame extends ApplicationAdapter {
         for (CollisionEntity collisionEntity : world.getPlayer().getCollisionEntities()) {
             collisionEntity.debugCollisions(shapeRenderer);
         }
-        
+
         shapeRenderer.end();
     }
 }
