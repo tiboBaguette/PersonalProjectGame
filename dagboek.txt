@@ -60,7 +60,6 @@ customize bossroom (spawners, torches...)
 fix corridor corners
 map generation settings
 room generation
-slimes cant spawn inside eachother
 arrow hitbox 16x16 -> 16x? or small hitbox at arrow tip
 map generation connect parallel rooms (not 100% chance)
 clean code

@@ -136,6 +136,8 @@ public class MapGenerator {
                 float x = room.getX() + room.getWidth() / 2f;
                 float y = room.getY() + room.getHeight() / 2f;
                 Slime slime = new Slime(x * 16, y * 16, 16, 16, 5);
+                // prevent slimes from spawning inside eachother
+                slime.checkSpawnLocation();
                 world.addSlime(slime);
             } else if (!room.equals(startingRoom)) { // spawn slimes
                 int roomSize = room.getWidth() * room.getHeight();
@@ -145,6 +147,8 @@ public class MapGenerator {
                     int x = (int) Math.floor((Math.random() * (room.getWidth() - 2)) + room.getX() + 2); // 2 is wall distance
                     int y = (int) Math.floor((Math.random() * (room.getHeight() - 2)) + room.getY() + 2);
                     Slime slime = new Slime(x * 16, y * 16, 16, 16, 1);
+                    // prevent slimes from spawning inside eachother
+                    slime.checkSpawnLocation();
                     world.addSlime(slime);
                 }
             }

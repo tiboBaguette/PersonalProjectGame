@@ -97,9 +97,8 @@ public class Slime extends Enemy {
                     for (int i = 0; i < 2; i++) {
                         Slime slime = new Slime(getX(), getY(), 16, 16, stage-1);
                         // prevent slimes from spawning inside eachother
-                        while (!slime.move(1, 0).equals(slime)) {
-                            slime.setX(slime.getX()+1);
-                        }
+                        checkSpawnLocation();
+
                         world.addSlime(slime);
                     }
                 }
@@ -148,6 +147,13 @@ public class Slime extends Enemy {
             move(0, moveY);
         } else if (!isInAnimation) { // idle
             nextAnimation = animationFramesSlimeGreen.getSlimeIdle();
+        }
+    }
+
+    public void checkSpawnLocation() {
+        // prevent slimes from spawning inside eachother
+        while (!this.move(1, 0).equals(this)) {
+            this.setX(this.getX()+1);
         }
     }
 
