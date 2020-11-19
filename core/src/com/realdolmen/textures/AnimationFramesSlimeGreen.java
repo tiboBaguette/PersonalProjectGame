@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lombok.Getter;
 
+@Getter
 public class AnimationFramesSlimeGreen {
     private Animation<TextureRegion> slimeCurrentAnimation;
     private Animation<TextureRegion> slimeIdle;
@@ -92,37 +94,5 @@ public class AnimationFramesSlimeGreen {
         slimeAttackDown = new Animation<>(0.125f,slimeAttackDownFrames);
 
         slimeCurrentAnimation = slimeIdle;
-    }
-
-    public Animation<TextureRegion> getSlimeCurrentAnimation() {
-        return slimeCurrentAnimation;
-    }
-
-    public Animation<TextureRegion> getSlimeIdle() {
-        return slimeIdle;
-    }
-
-    public Animation<TextureRegion> getSlimeMove() {
-        return slimeMove;
-    }
-
-    public Animation<TextureRegion> getSlimeSpawn() {
-        return slimeSpawn;
-    }
-
-    public Animation<TextureRegion> getSlimeDeath() {
-        return slimeDeath;
-    }
-
-    public Animation<TextureRegion> getSlimeAttackSide() {
-        return slimeAttackSide;
-    }
-
-    public Animation<TextureRegion> getSlimeAttackUp() {
-        return slimeAttackUp;
-    }
-
-    public Animation<TextureRegion> getSlimeAttackDown() {
-        return slimeAttackDown;
     }
 }

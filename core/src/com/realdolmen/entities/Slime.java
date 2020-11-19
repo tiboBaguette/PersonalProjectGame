@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.realdolmen.textures.AnimationFramesSlimeGreen;
 import com.realdolmen.world.World;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class Slime extends Enemy {
     // animations
     private float elapsedTime;
@@ -199,93 +203,5 @@ public class Slime extends Enemy {
         if (!die) {
             super.draw(batch, currentAnimation, drawWidth, drawHeight, flip, elapsedTime);
         }
-    }
-
-    public float getElapsedTime() {
-        return elapsedTime;
-    }
-
-    public void setElapsedTime(float elapsedTime) {
-        this.elapsedTime = elapsedTime;
-    }
-
-    public AnimationFramesSlimeGreen getAnimationFramesSlimeGreen() {
-        return animationFramesSlimeGreen;
-    }
-
-    public void setAnimationFramesSlimeGreen(AnimationFramesSlimeGreen animationFramesSlimeGreen) {
-        this.animationFramesSlimeGreen = animationFramesSlimeGreen;
-    }
-
-    public Animation<TextureRegion> getCurrentAnimation() {
-        return currentAnimation;
-    }
-
-    public void setCurrentAnimation(Animation<TextureRegion> currentAnimation) {
-        this.currentAnimation = currentAnimation;
-    }
-
-    public Animation<TextureRegion> getNextAnimation() {
-        return nextAnimation;
-    }
-
-    public void setNextAnimation(Animation<TextureRegion> nextAnimation) {
-        this.nextAnimation = nextAnimation;
-    }
-
-    public SpriteBatch getSpriteBatch() {
-        return spriteBatch;
-    }
-
-    public void setSpriteBatch(SpriteBatch spriteBatch) {
-        this.spriteBatch = spriteBatch;
-    }
-
-    public boolean isFlip() {
-        return flip;
-    }
-
-    public void setFlip(boolean flip) {
-        this.flip = flip;
-    }
-
-    public boolean isInAnimation() {
-        return isInAnimation;
-    }
-
-    public void setInAnimation(boolean inAnimation) {
-        isInAnimation = inAnimation;
-    }
-
-    public Boolean getDealDamage() {
-        return dealDamage;
-    }
-
-    public void setDealDamage(Boolean dealDamage) {
-        this.dealDamage = dealDamage;
-    }
-
-    public Boolean getDie() {
-        return die;
-    }
-
-    public void setDie(Boolean die) {
-        this.die = die;
-    }
-
-    public List<CollisionEntity> getIgnoreCollisions() {
-        return ignoreCollisions;
-    }
-
-    public void setIgnoreCollisions(List<CollisionEntity> ignoreCollisions) {
-        this.ignoreCollisions = ignoreCollisions;
-    }
-
-    public int getStage() {
-        return stage;
-    }
-
-    public void setStage(int stage) {
-        this.stage = stage;
     }
 }

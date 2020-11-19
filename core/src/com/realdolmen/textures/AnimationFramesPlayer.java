@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lombok.Getter;
 
+@Getter
 public class AnimationFramesPlayer extends AnimationFrames {
     private Animation<TextureRegion> playerCurrentAnimation;
     private Animation<TextureRegion> playerIdleFront;
@@ -100,73 +102,5 @@ public class AnimationFramesPlayer extends AnimationFrames {
         playerDeath = new Animation<>(0.125f,playerDeathFrames);
 
         playerCurrentAnimation = playerIdleFront;
-    }
-
-    public Animation<TextureRegion> getPlayerCurrentAnimation() {
-        return playerCurrentAnimation;
-    }
-
-    public Animation<TextureRegion> getPlayerIdleFront() {
-        return playerIdleFront;
-    }
-
-    public Animation<TextureRegion> getPlayerIdleBack() {
-        return playerIdleBack;
-    }
-
-    public Animation<TextureRegion> getPlayerRunFront() {
-        return playerRunFront;
-    }
-
-    public Animation<TextureRegion> getPlayerRunBack() {
-        return playerRunBack;
-    }
-
-    public Animation<TextureRegion> getPlayerAttackSide() {
-        return playerAttackSide;
-    }
-
-    public Animation<TextureRegion> getPlayerAttackUp() {
-        return playerAttackUp;
-    }
-
-    public Animation<TextureRegion> getPlayerAttackDown() {
-        return playerAttackDown;
-    }
-
-    public Animation<TextureRegion> getPlayerTakeDamage() {
-        return playerTakeDamage;
-    }
-
-    public Animation<TextureRegion> getPlayerPushSide() {
-        return playerPushSide;
-    }
-
-    public Animation<TextureRegion> getPlayerPullSide() {
-        return playerPullSide;
-    }
-
-    public Animation<TextureRegion> getPlayerPushUp() {
-        return playerPushUp;
-    }
-
-    public Animation<TextureRegion> getPlayerPushDown() {
-        return playerPushDown;
-    }
-
-    public Animation<TextureRegion> getPlayerPullUp() {
-        return playerPullUp;
-    }
-
-    public Animation<TextureRegion> getPlayerPullDown() {
-        return playerPullDown;
-    }
-
-    public Animation<TextureRegion> getPlayerDeath() {
-        return playerDeath;
-    }
-
-    public Animation<TextureRegion> getPlayerPitfall() {
-        return playerPitfall;
     }
 }

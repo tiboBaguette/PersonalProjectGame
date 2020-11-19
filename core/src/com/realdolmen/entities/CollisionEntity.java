@@ -61,7 +61,7 @@ public class CollisionEntity extends Entity {
         collisionEntities.remove(this);
     }
 
-    public List<CollisionEntity> getCollisionEntities() {
+    public static List<CollisionEntity> getCollisionEntities() {
         return collisionEntities;
     }
 

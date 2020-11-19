@@ -10,11 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.textures.AnimationFramesPlayer;
 import com.realdolmen.world.World;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Getter
+@Setter
 public class Player extends Creature {
     private final OrthographicCamera camera;
     private String facing;
@@ -121,50 +124,6 @@ public class Player extends Creature {
 
         super.draw(batch, currentAnimation, drawWidth, drawHeight, false, elapsedTime);
         //batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), this.getX() - 16, this.getY() - 10, this.getWidth() * 3, this.getHeight() * 3);
-    }
-
-    public String getFacing() {
-        return facing;
-    }
-
-    public void setFacing(String facing) {
-        this.facing = facing;
-    }
-
-    public AnimationFramesPlayer getAnimationFrames() {
-        return animationFramesPlayer;
-    }
-
-    public void setAnimationFrames(AnimationFramesPlayer animationFramesPlayer) {
-        this.animationFramesPlayer = animationFramesPlayer;
-    }
-
-    public Animation<TextureRegion> getCurrentAnimation() {
-        return currentAnimation;
-    }
-
-    public void setCurrentAnimation(Animation<TextureRegion> currentAnimation) {
-        this.currentAnimation = currentAnimation;
-    }
-
-    public float getHealthPercentage() {
-        return getHealth() / getMaxHealth();
-    }
-
-    public Animation<TextureRegion> getNextAnimation() {
-        return nextAnimation;
-    }
-
-    public void setNextAnimation(Animation<TextureRegion> nextAnimation) {
-        this.nextAnimation = nextAnimation;
-    }
-
-    public List<CollisionEntity> getIgnoreCollisions() {
-        return ignoreCollisions;
-    }
-
-    public void setIgnoreCollisions(List<CollisionEntity> ignoreCollisions) {
-        this.ignoreCollisions = ignoreCollisions;
     }
 }
 

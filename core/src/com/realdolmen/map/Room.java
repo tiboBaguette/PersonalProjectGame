@@ -3,10 +3,14 @@ package com.realdolmen.map;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.realdolmen.textures.MapTiles;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class Room {
     private int x;
     private int y;
@@ -89,81 +93,5 @@ public class Room {
     private TextureRegion getRandomTile(List<TextureRegion> textures) {
         int index = (int)Math.floor(Math.random() * textures.size());
         return textures.get(index);
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public boolean isRoomUp() {
-        return roomUp;
-    }
-
-    public void setRoomUp(boolean roomUp) {
-        this.roomUp = roomUp;
-    }
-
-    public boolean isRoomDown() {
-        return roomDown;
-    }
-
-    public void setRoomDown(boolean roomDown) {
-        this.roomDown = roomDown;
-    }
-
-    public boolean isRoomLeft() {
-        return roomLeft;
-    }
-
-    public void setRoomLeft(boolean roomLeft) {
-        this.roomLeft = roomLeft;
-    }
-
-    public boolean isRoomRight() {
-        return roomRight;
-    }
-
-    public void setRoomRight(boolean roomRight) {
-        this.roomRight = roomRight;
-    }
-
-    public RoomType getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(RoomType roomType) {
-        this.roomType = roomType;
-    }
-
-    public List<Tile> getTileList() {
-        return tileList;
     }
 }

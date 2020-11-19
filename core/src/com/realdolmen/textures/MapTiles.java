@@ -3,10 +3,12 @@ package com.realdolmen.textures;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class MapTiles {
     private TextureRegion wallCornerTopLeft, wallCornerTopRight, wallCornerBottomLeft, wallCornerBottomRight;
     private List<TextureRegion> wallVertical, wallHorizontal, floor;
@@ -44,37 +46,5 @@ public class MapTiles {
 
         // chest
         chest = new TextureRegion(textureAtlas.findRegion("tile192"));
-    }
-
-    public TextureRegion getWallCornerTopLeft() {
-        return wallCornerTopLeft;
-    }
-
-    public TextureRegion getWallCornerTopRight() {
-        return wallCornerTopRight;
-    }
-
-    public TextureRegion getWallCornerBottomLeft() {
-        return wallCornerBottomLeft;
-    }
-
-    public TextureRegion getWallCornerBottomRight() {
-        return wallCornerBottomRight;
-    }
-
-    public List<TextureRegion> getWallVertical() {
-        return wallVertical;
-    }
-
-    public List<TextureRegion> getWallHorizontal() {
-        return wallHorizontal;
-    }
-
-    public List<TextureRegion> getFloor() {
-        return floor;
-    }
-
-    public TextureRegion getChest() {
-        return chest;
     }
 }

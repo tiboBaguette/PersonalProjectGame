@@ -1,8 +1,13 @@
 package com.realdolmen.map;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class Doorway {
     private List<Coordinates> coordinates = new ArrayList<>();
     private String orientation;
@@ -49,21 +54,5 @@ public class Doorway {
 
                 break;
         }
-    }
-
-    public List<Coordinates> getDoorCoordinates() {
-        return coordinates;
-    }
-
-    public void setDoorCoordinates(List<Coordinates> doorCoordinates) {
-        this.coordinates = doorCoordinates;
-    }
-
-    public String getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(String orientation) {
-        this.orientation = orientation;
     }
 }

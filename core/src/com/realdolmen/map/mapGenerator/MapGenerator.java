@@ -159,7 +159,7 @@ public class MapGenerator {
         // get all the door coordinates
         List<Coordinates> doorCoordinates = new ArrayList<>();
         for (Doorway doorway : map.getDoors()) {
-            doorCoordinates.addAll(doorway.getDoorCoordinates());
+            doorCoordinates.addAll(doorway.getCoordinates());
         }
 
         // generate all the rooms

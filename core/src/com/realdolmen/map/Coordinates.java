@@ -1,5 +1,12 @@
 package com.realdolmen.map;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class Coordinates {
     private float x;
     private float y;
@@ -15,29 +22,5 @@ public class Coordinates {
 
     public int getYTileCoords() {
         return (int) Math.floor(y / 16);
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    @Override
-    public String toString() {
-        return "Coordinates{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
     }
 }

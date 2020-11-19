@@ -1,10 +1,12 @@
 package com.realdolmen.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Map {
     private final List<Room> rooms;
     private final List<Corridor> corridors;
@@ -26,17 +28,5 @@ public class Map {
         for (Room room : rooms) {
             room.draw(batch);
         }
-    }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public List<Corridor> getCorridors() {
-        return corridors;
-    }
-
-    public List<Doorway> getDoors() {
-        return doors;
     }
 }

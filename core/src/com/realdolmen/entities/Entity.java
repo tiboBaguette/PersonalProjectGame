@@ -3,7 +3,13 @@ package com.realdolmen.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
 public abstract class Entity {
     private static final int TILE_SIZE = 16;
     private static final int CHUNK_SIZE = 8;
@@ -18,14 +24,6 @@ public abstract class Entity {
         this.y = y;
         this.width = width;
         this.height = height;
-    }
-
-    public int getChunkX() {
-        return (int)Math.floor(this.getX() / TILE_SIZE / CHUNK_SIZE);
-    }
-
-    public int getChunkY() {
-        return (int)Math.floor(this.getY() / TILE_SIZE / CHUNK_SIZE);
     }
 
     void draw(Batch batch, Animation<TextureRegion> currentAnimation, float drawWidth, float drawHeight, boolean flip, float elapsedTime) {
@@ -43,45 +41,11 @@ public abstract class Entity {
         batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), x, y, width, height);
     }
 
-    public float getX() {
-        return x;
+    public int getChunkX() {
+        return (int)Math.floor(this.getX() / TILE_SIZE / CHUNK_SIZE);
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
-    }
-
-    @Override
-    public String toString() {
-        return "Entity{" +
-                "x=" + x +
-                ", y=" + y +
-                ", width=" + width +
-                ", height=" + height +
-                '}';
+    public int getChunkY() {
+        return (int)Math.floor(this.getY() / TILE_SIZE / CHUNK_SIZE);
     }
 }

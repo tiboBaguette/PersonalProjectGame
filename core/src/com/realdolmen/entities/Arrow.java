@@ -5,10 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.realdolmen.world.World;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class Arrow extends CollisionEntity {
     private static final int WIDTH = 16;
     private static final int HEIGHT = 16;
@@ -76,7 +80,6 @@ public class Arrow extends CollisionEntity {
         sprite.setPosition(this.getActualX(), this.getActualY());
         sprite.draw(batch);
     }
-
 
     // the collision entity is at the tip of the arrow this return the actual value for drawing etc
     public float getActualX() {

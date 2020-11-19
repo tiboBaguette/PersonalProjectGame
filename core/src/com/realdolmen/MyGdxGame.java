@@ -94,9 +94,9 @@ public class MyGdxGame extends ApplicationAdapter {
     private void input() {
         // set idle animation
         if (world.getPlayer().getFacing().equals(FacingValues.UP.toString())) {
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerIdleBack());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerIdleBack());
         } else {
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerIdleFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerIdleFront());
         }
 
         // player movement input
@@ -104,7 +104,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(-1, 0);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunFront());
             world.getPlayer().setFacing(FacingValues.LEFT.name());
         }
 
@@ -112,7 +112,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(1, 0);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunFront());
             world.getPlayer().setFacing(FacingValues.RIGHT.name());
         }
 
@@ -120,7 +120,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(0, 1);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunBack());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunBack());
             world.getPlayer().setFacing(FacingValues.UP.name());
         }
 
@@ -128,7 +128,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(0, -1);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFrames().getPlayerRunFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunFront());
             world.getPlayer().setFacing(FacingValues.DOWN.name());
         }
 

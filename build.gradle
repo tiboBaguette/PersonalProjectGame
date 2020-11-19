@@ -58,7 +58,6 @@ project(":core") {
     apply plugin: 'war'
     apply plugin: 'checkstyle'
 
-
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
@@ -71,6 +70,12 @@ project(":core") {
         compile 'postgresql:postgresql:9.1-901-1.jdbc4'
         compile "javax.ws.rs:jsr311-api:1.1.1"
         compile 'mysql:mysql-connector-java:8.0.17'
+
+        // lombok
+        compileOnly 'org.projectlombok:lombok:1.18.16'
+        annotationProcessor 'org.projectlombok:lombok:1.18.16'
+        testCompileOnly 'org.projectlombok:lombok:1.18.16'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 
         // JAX-B dependencies for JDK 9+
         implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"

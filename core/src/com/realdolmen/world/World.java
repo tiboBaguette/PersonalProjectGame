@@ -7,10 +7,14 @@ import com.realdolmen.entities.Player;
 import com.realdolmen.entities.Slime;
 import com.realdolmen.map.Map;
 import com.realdolmen.map.mapGenerator.MapGenerator;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class World {
     private Map map;
     private Player player;
@@ -69,40 +73,8 @@ public class World {
         }
     }
 
-    public Map getMap() {
-        return map;
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public List<Slime> getSlimes() {
-        return slimes;
-    }
-
-    public void setSlimes(List<Slime> enemies) {
-        this.slimes = enemies;
-    }
-
     public void addSlime(Slime slime) {
         this.slimes.add(slime);
-    }
-
-    public List<Arrow> getArrows() {
-        return arrows;
-    }
-
-    public void setArrows(List<Arrow> arrows) {
-        this.arrows = arrows;
     }
 
     public void removeArrow(Arrow arrow) {
@@ -113,21 +85,5 @@ public class World {
     public void removeSlime(Slime slime) {
         slime.removeCollisionEntity();
         slimes.remove(slime);
-    }
-
-    public Statistics getStatistics() {
-        return statistics;
-    }
-
-    public void setStatistics(Statistics statistics) {
-        this.statistics = statistics;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(Settings settings) {
-        this.settings = settings;
     }
 }
