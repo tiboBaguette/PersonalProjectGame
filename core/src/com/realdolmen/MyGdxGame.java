@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.*;
+import com.realdolmen.textures.animations.PlayerAnimationType;
 import com.realdolmen.world.World;
 
 import javax.persistence.EntityManager;
@@ -94,9 +95,9 @@ public class MyGdxGame extends ApplicationAdapter {
     private void input() {
         // set idle animation
         if (world.getPlayer().getFacing().equals(FacingValues.UP.toString())) {
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerIdleBack());
+            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_BACK));
         } else {
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerIdleFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_FRONT));
         }
 
         // player movement input
@@ -104,7 +105,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(-1, 0);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
             world.getPlayer().setFacing(FacingValues.LEFT.name());
         }
 
@@ -112,7 +113,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(1, 0);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
             world.getPlayer().setFacing(FacingValues.RIGHT.name());
         }
 
@@ -120,7 +121,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(0, 1);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunBack());
+            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_BACK));
             world.getPlayer().setFacing(FacingValues.UP.name());
         }
 
@@ -128,7 +129,7 @@ public class MyGdxGame extends ApplicationAdapter {
             for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
                 world.getPlayer().move(0, -1);
             }
-            world.getPlayer().setNextAnimation(world.getPlayer().getAnimationFramesPlayer().getPlayerRunFront());
+            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
             world.getPlayer().setFacing(FacingValues.DOWN.name());
         }
 
@@ -187,7 +188,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-        for (CollisionEntity collisionEntity : world.getPlayer().getCollisionEntities()) {
+        for (CollisionEntity collisionEntity : CollisionEntity.getCollisionEntities()) {
             collisionEntity.debugCollisions(shapeRenderer);
         }
 

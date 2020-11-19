@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.realdolmen.textures.AnimationFramesSlimeGreen;
+import com.realdolmen.textures.animations.SlimeAnimationType;
+import com.realdolmen.textures.animations.SlimeAnimations;
 import com.realdolmen.world.World;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,17 +17,18 @@ import java.util.List;
 @Getter
 @Setter
 public class Slime extends Enemy {
+    private Boolean dealDamage;
+    private Boolean die;
+    private List<CollisionEntity> ignoreCollisions;
+
     // animations
     private float elapsedTime;
-    private AnimationFramesSlimeGreen animationFramesSlimeGreen;
+    private SlimeAnimations slimeAnimations;
     private Animation<TextureRegion> currentAnimation;
     private Animation<TextureRegion> nextAnimation;
     private SpriteBatch spriteBatch;
     private boolean flip;
     private boolean isInAnimation;
-    private Boolean dealDamage;
-    private Boolean die;
-    private List<CollisionEntity> ignoreCollisions;
 
     // stats
     private final float attackDistance;
@@ -35,7 +37,6 @@ public class Slime extends Enemy {
     // draw
     private final float drawWidth;
     private final float drawHeight;
-
 
     public Slime(float x, float y, float width, float height, int stage) {
         super(x, y, width / 2 * stage, height / 2 * stage);
@@ -55,12 +56,13 @@ public class Slime extends Enemy {
         setMoveSpeed(2);
         setAttackSpeed(1);
 
+        // animation
         this.elapsedTime = 0;
-        this.animationFramesSlimeGreen = new AnimationFramesSlimeGreen();
-        createAnimationFrames();
-
+        slimeAnimations = new SlimeAnimations();
         flip = false;
         isInAnimation = false;
+        // set the default animation
+        currentAnimation = slimeAnimations.getAnimation(SlimeAnimationType.IDLE);
 
         this.dealDamage = false;
         this.die = false;
@@ -68,12 +70,6 @@ public class Slime extends Enemy {
 
     public CollisionEntity move(float moveX, float moveY) {
         return this.move(this, moveX, moveY, ignoreCollisions);
-    }
-
-    private void createAnimationFrames() {
-        animationFramesSlimeGreen.createPlayerFrames();
-        currentAnimation = animationFramesSlimeGreen.getSlimeIdle();
-        nextAnimation = animationFramesSlimeGreen.getSlimeIdle();
     }
 
     public void update(World world) {
@@ -126,31 +122,31 @@ public class Slime extends Enemy {
             }
 
             if (angle >= 45 && angle < 135 && !isInAnimation) {
-                nextAnimation = animationFramesSlimeGreen.getSlimeAttackUp();
+                nextAnimation = slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_UP);
                 flip = false;
                 isInAnimation = true;
             } else if (angle >= 135 && angle < 225 && !isInAnimation) {
-                nextAnimation = animationFramesSlimeGreen.getSlimeAttackSide();
+                nextAnimation = slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_SIDE);
                 flip = true;
                 isInAnimation = true;
             } else if (angle >= 225 && angle < 315 && !isInAnimation) {
-                nextAnimation = animationFramesSlimeGreen.getSlimeAttackDown();
+                nextAnimation = slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_DOWN);
                 flip = false;
                 isInAnimation = true;
             } else if (!isInAnimation) {
-                nextAnimation = animationFramesSlimeGreen.getSlimeAttackSide();
+                nextAnimation = slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_SIDE);
                 setAnimation();
                 flip = false;
                 isInAnimation = true;
             }
         } else if (distanceToPlayer < 24 * 16 && !isInAnimation) { // move to player
-            nextAnimation = animationFramesSlimeGreen.getSlimeMove();
+            nextAnimation = slimeAnimations.getAnimation(SlimeAnimationType.MOVE);
             float moveX = getMoveSpeed() * (distanceToPlayerX / distanceToPlayer);
             float moveY = getMoveSpeed() * (distanceToPlayerY / distanceToPlayer);
             move(moveX, 0);
             move(0, moveY);
         } else if (!isInAnimation) { // idle
-            nextAnimation = animationFramesSlimeGreen.getSlimeIdle();
+            nextAnimation = slimeAnimations.getAnimation(SlimeAnimationType.IDLE);
         }
     }
 
@@ -167,16 +163,16 @@ public class Slime extends Enemy {
             setHealth(getHealth() - damage);
             if (getHealth() <= 0) {
                 elapsedTime = 0;
-                currentAnimation = animationFramesSlimeGreen.getSlimeDeath();
+                currentAnimation = slimeAnimations.getAnimation(SlimeAnimationType.DEATH);
             }
         }
     }
 
     private void setAnimation() {
         // if attack is finished
-        if (currentAnimation.equals(animationFramesSlimeGreen.getSlimeAttackDown()) ||
-                currentAnimation.equals(animationFramesSlimeGreen.getSlimeAttackUp()) ||
-                currentAnimation.equals(animationFramesSlimeGreen.getSlimeAttackSide())) {
+        if (currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_DOWN)) ||
+                currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_UP)) ||
+                currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_SIDE))) {
             // deal damage at the 2nd frame in the attack animation
             if (currentAnimation.getKeyFrameIndex(elapsedTime) == 1) {
                 dealDamage = true;
@@ -185,7 +181,7 @@ public class Slime extends Enemy {
 
         if (currentAnimation.isAnimationFinished(elapsedTime)) {
             // if death is finished
-            if (currentAnimation.equals(animationFramesSlimeGreen.getSlimeDeath())) {
+            if (currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.DEATH))) {
                 die = true;
             }
 
