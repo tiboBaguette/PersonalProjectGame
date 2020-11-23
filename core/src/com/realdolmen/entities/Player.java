@@ -73,7 +73,7 @@ public class Player extends Creature {
     }
 
     public void update(World world) {
-
+        world.getInput().playerInput();
     }
 
     public void createUi(Stage stage) {

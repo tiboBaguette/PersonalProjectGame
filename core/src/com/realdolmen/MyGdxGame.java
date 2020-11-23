@@ -2,7 +2,6 @@ package com.realdolmen;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -10,20 +9,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.*;
-import com.realdolmen.textures.animations.PlayerAnimationType;
-import com.realdolmen.world.State;
+import com.realdolmen.world.Input;
 import com.realdolmen.world.World;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Stage stage;
     private World world;
-    private State state;
     private OrthographicCamera camera;
 
     @Override
@@ -42,8 +34,6 @@ public class MyGdxGame extends ApplicationAdapter {
         world = new World();
         // player
         world.setPlayer(new Player(0, 0, 48, 48, camera));
-        // game state
-        state = State.RESUME;
 
         // ui
         VisUI.load(VisUI.SkinScale.X2);
@@ -54,7 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void render() {
-        switch (state) {
+        switch (world.getState()) {
             case RESUME:
                 resume();
                 break;
@@ -81,7 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // input
-        input();
+        world.getInput().generalInput();
 
         // draw batch
         batch.begin();
@@ -98,7 +88,7 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // input
-        input();
+        world.getInput().generalInput();
 
         // update
         world.update();
@@ -115,108 +105,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
         // camera
         camera.update();
-    }
-
-    private void input() {
-        // pause / resume
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            switch (state) {
-                case RESUME:
-                    state = State.PAUSE;
-                    break;
-                case PAUSE:
-                    state = State.RESUME;
-                    break;
-            }
-        }
-
-        // set idle animation
-        if (world.getPlayer().getFacing().equals(FacingValues.UP.toString())) {
-            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_BACK));
-        } else {
-            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_FRONT));
-        }
-
-        // player movement input
-        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
-                world.getPlayer().move(-1, 0);
-            }
-            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
-            world.getPlayer().setFacing(FacingValues.LEFT.name());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
-                world.getPlayer().move(1, 0);
-            }
-            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
-            world.getPlayer().setFacing(FacingValues.RIGHT.name());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
-            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
-                world.getPlayer().move(0, 1);
-            }
-            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_BACK));
-            world.getPlayer().setFacing(FacingValues.UP.name());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            for (int i = 0; i < world.getPlayer().getMoveSpeed(); i++) {
-                world.getPlayer().move(0, -1);
-            }
-            world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
-            world.getPlayer().setFacing(FacingValues.DOWN.name());
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            world.getPlayer().move(0, 40);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            world.getPlayer().move(0, -40);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            world.getPlayer().move(-40, 0);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            world.getPlayer().move(40, 0);
-        }
-
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            // create a new arrow on the player location
-            Arrow arrow = new Arrow(world.getPlayer().getAttackDamage(),
-                    world.getPlayer().getX(),
-                    world.getPlayer().getY(),
-                    Gdx.input.getX(),
-                    Gdx.graphics.getHeight() - Gdx.input.getY());
-
-            // add the arrow to the world and update statistics
-            world.getArrows().add(arrow);
-            world.getStatistics().setArrowsShot(world.getStatistics().getArrowsShot() + 1);
-        }
-
-        // JPA scoreboard
-        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            EntityManagerFactory emf = null;
-            EntityManager em = null;
-            try {
-                emf = Persistence.createEntityManagerFactory("mysqlcontainernone");
-                em = emf.createEntityManager();
-                EntityTransaction tx = em.getTransaction();
-
-                tx.begin();
-                em.persist(world.getStatistics());
-                tx.commit();
-            } finally {
-                if(em!=null) {
-                    em.close();
-                }
-                if(emf!=null) {
-                    emf.close();
-                }
-            }
-        }
     }
 
     private void debugCollisions() {

@@ -23,6 +23,8 @@ public class World {
     private Statistics statistics;
     private Settings settings;
     private MapGenerator mapGenerator;
+    private State state;
+    private Input input;
 
     public World() {
         this.arrows = new ArrayList<>();
@@ -30,8 +32,15 @@ public class World {
         this.statistics = new Statistics();
         this.settings = new Settings();
 
+        // generate new map
         mapGenerator = new MapGenerator(this);
         this.map = mapGenerator.generateNewMap();
+
+        // game state
+        state = State.RESUME;
+
+        // input
+        input = new Input(this);
     }
 
     public void update() {
