@@ -23,6 +23,7 @@ public class Input {
             switch (world.getState()) {
                 case RESUME:
                     world.setState(State.PAUSE);
+                    world.pause();
                     break;
                 case PAUSE:
                     world.setState(State.RESUME);

@@ -7,6 +7,8 @@ import com.realdolmen.entities.Player;
 import com.realdolmen.entities.Slime;
 import com.realdolmen.map.Map;
 import com.realdolmen.map.mapGenerator.MapGenerator;
+import com.realdolmen.textures.animations.PlayerAnimationType;
+import com.realdolmen.textures.animations.SlimeAnimationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,7 +53,7 @@ public class World {
         player.update(this);
 
         // update slimes
-        for (int i = 0; i < slimes.size(); i++) { // moet met iterator -> ConcurrentModificationException
+        for (int i = 0; i < slimes.size(); i++) { // needs iterator -> ConcurrentModificationException
             Slime slime = slimes.get(i);
             slime.update(this);
         }
@@ -61,6 +63,19 @@ public class World {
             Arrow arrow = arrows.get(i);
             player.getIgnoreCollisions().add(arrow);
             arrow.update(this);
+        }
+    }
+
+    public void pause() {
+        // set player idle animation
+        player.setCurrentAnimation(player.getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_FRONT));
+        player.setNextAnimation(player.getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_FRONT));
+
+        // set slime idle animation
+        for (int i = 0; i < slimes.size(); i++) { // needs iterator -> ConcurrentModificationException
+            Slime slime = slimes.get(i);
+            slime.setCurrentAnimation(slime.getSlimeAnimations().getAnimation(SlimeAnimationType.IDLE));
+            slime.setNextAnimation(slime.getSlimeAnimations().getAnimation(SlimeAnimationType.IDLE));
         }
     }
 

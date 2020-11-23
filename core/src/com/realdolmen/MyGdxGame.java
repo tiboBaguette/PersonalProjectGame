@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.*;
-import com.realdolmen.world.Input;
 import com.realdolmen.world.World;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -17,6 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private Stage stage;
     private World world;
     private OrthographicCamera camera;
+    private ShapeRenderer shapeRenderer;
 
     @Override
     public void create() {
@@ -40,6 +40,9 @@ public class MyGdxGame extends ApplicationAdapter {
         stage = new Stage();
         world.getPlayer().createUi(stage);
         Gdx.input.setInputProcessor(stage);
+
+        // shaperederer
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -73,12 +76,24 @@ public class MyGdxGame extends ApplicationAdapter {
         // input
         world.getInput().generalInput();
 
+        // update
+        world.pause();
+
         // draw batch
         batch.begin();
         world.draw(batch);
         batch.setProjectionMatrix(camera.combined);
         stage.draw();
         batch.end();
+
+        // darken screen
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0, 0, 0, 0.6f);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     @Override

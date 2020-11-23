@@ -82,12 +82,15 @@ public class Player extends Creature {
         healthBar.setValue(getHealth());
         healthBar.setColor(0, 1, 0, 1);
         healthBar.setWidth(Gdx.graphics.getWidth() / 3f);
-        healthBar.setName("test");
         stage.addActor(healthBar);
     }
 
     public void takeDamage(float amount) {
+        // take damage and update health bar
         setHealth(getHealth() - amount);
+        healthBar.setValue(getHealth());
+
+        // player animations
         if (getHealth() <= 0) {
             currentAnimation = playerAnimations.getAnimation(PlayerAnimationType.DEATH);
             elapsedTime = 0;
@@ -103,7 +106,7 @@ public class Player extends Creature {
         if (isInAnimation) {
             if (currentAnimation.isAnimationFinished(elapsedTime)) {
                 elapsedTime = 0;
-                currentAnimation = nextAnimation;
+                //currentAnimation = nextAnimation;
                 isInAnimation = false;
             }
         } else {
@@ -114,7 +117,6 @@ public class Player extends Creature {
 
     public void draw(Batch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
-        healthBar.setValue(getHealth());
         setAnimation();
 
         super.draw(batch, currentAnimation, drawWidth, drawHeight, false, elapsedTime);
