@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.*;
 import com.realdolmen.textures.animations.PlayerAnimationType;
+import com.realdolmen.world.State;
 import com.realdolmen.world.World;
 
 import javax.persistence.EntityManager;
@@ -22,6 +23,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Stage stage;
     private World world;
+    private State state;
     private OrthographicCamera camera;
 
     @Override
@@ -40,6 +42,8 @@ public class MyGdxGame extends ApplicationAdapter {
         world = new World();
         // player
         world.setPlayer(new Player(0, 0, 48, 48, camera));
+        // game state
+        state = State.RESUME;
 
         // ui
         VisUI.load(VisUI.SkinScale.X2);
@@ -50,6 +54,45 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        switch (state) {
+            case RESUME:
+                resume();
+                break;
+            case PAUSE:
+                pause();
+                break;
+        }
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        VisUI.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+        // clear
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // input
+        input();
+
+        // draw batch
+        batch.begin();
+        world.draw(batch);
+        batch.setProjectionMatrix(camera.combined);
+        stage.draw();
+        batch.end();
+    }
+
+    @Override
+    public void resume() {
         // clear
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -74,25 +117,19 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.update();
     }
 
-    @Override
-    public void dispose() {
-        batch.dispose();
-        VisUI.dispose();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
     private void input() {
+        // pause / resume
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            switch (state) {
+                case RESUME:
+                    state = State.PAUSE;
+                    break;
+                case PAUSE:
+                    state = State.RESUME;
+                    break;
+            }
+        }
+
         // set idle animation
         if (world.getPlayer().getFacing().equals(FacingValues.UP.toString())) {
             world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_BACK));

@@ -10,6 +10,7 @@ public class Settings {
     private final int maxRoomHeight;
     private final int minRoomWidth;
     private final int minRoomHeight;
+    private final int bossRoomSize;
 
     public Settings() {
         // map settings
@@ -18,5 +19,6 @@ public class Settings {
         this.maxRoomHeight = 41;
         this.minRoomWidth = 21;
         this.minRoomHeight = 21;
+        this.bossRoomSize = 50;
     }
 }

@@ -9,30 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapGenerator {
-    private static final int BOSS_ROOM_SIZE = 50;
-
     // map settings
     private final int maxRoomWidth, maxRoomHeight, minRoomWidth, minRoomHeight;
-    private final int mapSize;
+    private final int mapSize, bossRoomSize;
 
     // rooms
     private final List<Room> usedRooms;
     private Room startingRoom;
     private Room bossRoom;
 
-    // world / map
+    // map / world
+    private Map map;
     private final MapTiles mapTileset;
     private final World world;
-    private Map map;
+
 
     public MapGenerator(World world) {
         this.world = world;
+        this.usedRooms = new ArrayList<>();
+
+        // settings
         this.maxRoomWidth = world.getSettings().getMaxRoomWidth();
         this.maxRoomHeight = world.getSettings().getMaxRoomHeight();
         this.minRoomWidth = world.getSettings().getMinRoomWidth();
         this.minRoomHeight = world.getSettings().getMinRoomHeight();
         this.mapSize = world.getSettings().getMapSize();
-        this.usedRooms = new ArrayList<>();
+        this.bossRoomSize = world.getSettings().getBossRoomSize();
 
         // create the tile textures
         mapTileset = new MapTiles();
@@ -118,15 +120,15 @@ public class MapGenerator {
 
         // move the room to fit new size
         if (bossRoom.getX() < 0) {
-            bossRoom.setX(bossRoom.getX() -  (BOSS_ROOM_SIZE - bossRoom.getWidth()));
+            bossRoom.setX(bossRoom.getX() -  (bossRoomSize - bossRoom.getWidth()));
         }
         if (bossRoom.getY() < 0) {
-            bossRoom.setY(bossRoom.getY() - (BOSS_ROOM_SIZE - bossRoom.getHeight()));
+            bossRoom.setY(bossRoom.getY() - (bossRoomSize - bossRoom.getHeight()));
         }
 
         // set new size
-        bossRoom.setWidth(BOSS_ROOM_SIZE);
-        bossRoom.setHeight(BOSS_ROOM_SIZE);
+        bossRoom.setWidth(bossRoomSize);
+        bossRoom.setHeight(bossRoomSize);
         this.bossRoom = bossRoom;
     }
 
@@ -136,8 +138,10 @@ public class MapGenerator {
                 float x = room.getX() + room.getWidth() / 2f;
                 float y = room.getY() + room.getHeight() / 2f;
                 Slime slime = new Slime(x * 16, y * 16, 16, 16, 5);
+
                 // prevent slimes from spawning inside eachother
                 slime.checkSpawnLocation();
+
                 world.addSlime(slime);
             } else if (!room.equals(startingRoom)) { // spawn slimes
                 int roomSize = room.getWidth() * room.getHeight();
@@ -147,8 +151,10 @@ public class MapGenerator {
                     int x = (int) Math.floor((Math.random() * (room.getWidth() - 2)) + room.getX() + 2); // 2 is wall distance
                     int y = (int) Math.floor((Math.random() * (room.getHeight() - 2)) + room.getY() + 2);
                     Slime slime = new Slime(x * 16, y * 16, 16, 16, 1);
+
                     // prevent slimes from spawning inside eachother
                     slime.checkSpawnLocation();
+
                     world.addSlime(slime);
                 }
             }
