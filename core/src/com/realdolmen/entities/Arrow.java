@@ -39,14 +39,12 @@ public class Arrow extends CollisionEntity {
 
         this.damage = damage;
         this.speed = 8;
+
+        // set the speedX & speedY
         calculateVelocity(targetX, targetY);
 
         // set the collision box at the tip of the arrow
-        float offset = WIDTH/2f;
-        this.xOffset = offset * (float) Math.cos(angle);
-        this.yOffset = offset * (float) Math.sin(angle);
-        this.setX(getX() + xOffset);
-        this.setY(getY() + yOffset);
+        adjustArrowHitbox();
     }
 
     public void update(World world) {
@@ -74,6 +72,22 @@ public class Arrow extends CollisionEntity {
         this.speedX = (float) (speed * Math.cos(angle));
         this.speedY = (float) (speed * Math.sin(angle));
         sprite.rotate((float) Math.toDegrees(angle) - 135);
+    }
+
+    private void adjustArrowHitbox() {
+        // move the hitbox to the center of the arrow
+        this.setX(getX() + WIDTH/4f);
+        this.setY(getY() + WIDTH/4f);
+
+        // move the hitbox to the tip of the arrow
+        float tipXOffset = WIDTH/2f * (float) Math.cos(angle);
+        float tipYOffset = WIDTH/2f * (float) Math.sin(angle);
+        this.setX(getX() + tipXOffset);
+        this.setY(getY() + tipYOffset);
+
+        // adjust the draw offset
+        this.xOffset = WIDTH/4f + tipXOffset;
+        this.yOffset = WIDTH/4f + tipYOffset;
     }
 
     public void draw(Batch batch) {
