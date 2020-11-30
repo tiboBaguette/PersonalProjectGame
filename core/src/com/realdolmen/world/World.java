@@ -68,13 +68,11 @@ public class World {
 
     public void pause() {
         // set player idle animation
-        player.setCurrentAnimation(player.getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_FRONT));
         player.setNextAnimation(player.getPlayerAnimations().getAnimation(PlayerAnimationType.IDLE_FRONT));
 
         // set slime idle animation
         for (int i = 0; i < slimes.size(); i++) { // needs iterator -> ConcurrentModificationException
             Slime slime = slimes.get(i);
-            slime.setCurrentAnimation(slime.getSlimeAnimations().getAnimation(SlimeAnimationType.IDLE));
             slime.setNextAnimation(slime.getSlimeAnimations().getAnimation(SlimeAnimationType.IDLE));
         }
     }

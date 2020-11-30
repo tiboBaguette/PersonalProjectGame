@@ -4,7 +4,11 @@ import lombok.Getter;
 
 @Getter
 public class Settings {
-    // map settings
+    // general
+    private final int tileSize;
+    private final int slimeSize;
+
+    // map
     private final int mapSize;
     private final int maxRoomWidth;
     private final int maxRoomHeight;
@@ -13,7 +17,11 @@ public class Settings {
     private final int bossRoomSize;
 
     public Settings() {
-        // map settings
+        // general
+        this.tileSize = 16;
+        this.slimeSize = 16;
+
+        // map
         this.mapSize = 5;
         this.maxRoomWidth = 41;
         this.maxRoomHeight = 41;

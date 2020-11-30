@@ -24,6 +24,7 @@ public class Player extends Creature {
     private String facing;
     private ProgressBar healthBar;
     private boolean isInAnimation;
+    private boolean flipAnimation;
     private List<CollisionEntity> ignoreCollisions;
 
     // stats
@@ -108,18 +109,18 @@ public class Player extends Creature {
                 elapsedTime = 0;
                 //currentAnimation = nextAnimation;
                 isInAnimation = false;
+
             }
         } else {
             currentAnimation = nextAnimation;
         }
-
     }
 
     public void draw(Batch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
         setAnimation();
 
-        super.draw(batch, currentAnimation, drawWidth, drawHeight, false, elapsedTime);
+        super.draw(batch, currentAnimation, drawWidth, drawHeight, flipAnimation, elapsedTime);
     }
 }
 

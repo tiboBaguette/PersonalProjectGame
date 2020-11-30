@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapGenerator {
-    // map settings
+    // settings
+    // general
+    private final int tileSize;
+    private final int slimeSize;
+    // map
     private final int maxRoomWidth, maxRoomHeight, minRoomWidth, minRoomHeight;
     private final int mapSize, bossRoomSize;
 
@@ -29,6 +33,10 @@ public class MapGenerator {
         this.usedRooms = new ArrayList<>();
 
         // settings
+        // general
+        this.tileSize = world.getSettings().getTileSize();
+        this.slimeSize = world.getSettings().getSlimeSize();
+        // map
         this.maxRoomWidth = world.getSettings().getMaxRoomWidth();
         this.maxRoomHeight = world.getSettings().getMaxRoomHeight();
         this.minRoomWidth = world.getSettings().getMinRoomWidth();
@@ -62,7 +70,7 @@ public class MapGenerator {
         // generate starting room at the center of the map
         int roomWidth = (int)Math.floor(Math.random() * (maxRoomWidth - minRoomWidth) + minRoomWidth);
         int roomHeight = (int)Math.floor(Math.random() * (maxRoomHeight - minRoomHeight) + minRoomWidth);
-        startingRoom = new Room(-roomWidth / 2 * 16, -roomHeight / 2 * 16, roomWidth, roomHeight);
+        startingRoom = new Room(-roomWidth / 2 * tileSize, -roomHeight / 2 * tileSize, roomWidth, roomHeight);
         startingRoom.setRoomType(RoomType.STARTING);
         map.getRooms().add(startingRoom);
     }
@@ -137,7 +145,7 @@ public class MapGenerator {
             if (room.equals(bossRoom)) { // spawn boss
                 float x = room.getX() + room.getWidth() / 2f;
                 float y = room.getY() + room.getHeight() / 2f;
-                Slime slime = new Slime(x * 16, y * 16, 16, 16, 5);
+                Slime slime = new Slime(x * tileSize, y * tileSize, slimeSize, slimeSize, 5);
 
                 // prevent slimes from spawning inside eachother
                 slime.checkSpawnLocation();
@@ -150,7 +158,18 @@ public class MapGenerator {
                 for (int i = 0; i < amountOfEnemies; i++) {
                     int x = (int) Math.floor((Math.random() * (room.getWidth() - 2)) + room.getX() + 2); // 2 is wall distance
                     int y = (int) Math.floor((Math.random() * (room.getHeight() - 2)) + room.getY() + 2);
-                    Slime slime = new Slime(x * 16, y * 16, 16, 16, 1);
+
+                    // 20% chance to spawn stage 2
+                    int stage = (int) Math.floor(Math.random() * 5) + 1;
+                    if (stage > 1) {
+                        stage = 1;
+                    } else {
+                        stage = 2;
+                    }
+
+                    // create new slime
+                    // todo slimeSize in slime class
+                    Slime slime = new Slime(x * tileSize, y * tileSize, slimeSize, slimeSize, stage);
 
                     // prevent slimes from spawning inside eachother
                     slime.checkSpawnLocation();
@@ -199,10 +218,10 @@ public class MapGenerator {
 
                 // add room/corridor if there are no collisions
                 if (!collision(roomX, roomY, roomWidth, roomHeight)) {
-                    Room newRoom = new Room(roomX * 16, roomY * 16 , roomWidth, roomHeight);
+                    Room newRoom = new Room(roomX * tileSize, roomY * tileSize , roomWidth, roomHeight);
                     newRoom.setRoomDown(true);
                     map.getRooms().add(newRoom);
-                    map.getCorridors().add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
+                    map.getCorridors().add(new Corridor(corridorX * tileSize, corridorY * tileSize, corridorWidth, corridorHeight));
 
                     // add doors
                     Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "UP");
@@ -226,10 +245,10 @@ public class MapGenerator {
 
                 // add room/corridor if there are no collisions
                 if (!collision(roomX, roomY, roomWidth, roomHeight)) {
-                    Room newRoom = new Room(roomX * 16, roomY * 16 , roomWidth, roomHeight);
+                    Room newRoom = new Room(roomX * tileSize, roomY * tileSize , roomWidth, roomHeight);
                     newRoom.setRoomUp(true);
                     map.getRooms().add(newRoom);
-                    map.getCorridors().add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
+                    map.getCorridors().add(new Corridor(corridorX * tileSize, corridorY * tileSize, corridorWidth, corridorHeight));
 
                     // add doors
                     Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "DOWN");
@@ -253,10 +272,10 @@ public class MapGenerator {
 
                 // add room/corridor if there are no collisions
                 if (!collision(roomX, roomY, roomWidth, roomHeight)) {
-                    Room newRoom = new Room(roomX * 16, roomY * 16 , roomWidth, roomHeight);
+                    Room newRoom = new Room(roomX * tileSize, roomY * tileSize , roomWidth, roomHeight);
                     newRoom.setRoomRight(true);
                     map.getRooms().add(newRoom);
-                    map.getCorridors().add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
+                    map.getCorridors().add(new Corridor(corridorX * tileSize, corridorY * tileSize, corridorWidth, corridorHeight));
 
                     // add doors
                     Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "LEFT");
@@ -280,10 +299,10 @@ public class MapGenerator {
 
                 // add room/corridor if there are no collisions
                 if (!collision(roomX, roomY, roomWidth, roomHeight)) {
-                    Room newRoom = new Room(roomX * 16, roomY * 16 , roomWidth, roomHeight);
+                    Room newRoom = new Room(roomX * tileSize, roomY * tileSize , roomWidth, roomHeight);
                     newRoom.setRoomLeft(true);
                     map.getRooms().add(newRoom);
-                    map.getCorridors().add(new Corridor(corridorX * 16, corridorY * 16, corridorWidth, corridorHeight));
+                    map.getCorridors().add(new Corridor(corridorX * tileSize, corridorY * tileSize, corridorWidth, corridorHeight));
 
                     // add doors
                     Doorway doorway = new Doorway(corridorX, corridorY, corridorWidth, corridorHeight, "RIGHT");

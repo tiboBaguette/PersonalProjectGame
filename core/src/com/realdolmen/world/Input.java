@@ -69,6 +69,7 @@ public class Input {
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
             world.getPlayer().setFacing(FacingValues.LEFT.name());
+            world.getPlayer().setFlipAnimation(true);
         }
 
         if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.D)){
@@ -77,6 +78,7 @@ public class Input {
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
             world.getPlayer().setFacing(FacingValues.RIGHT.name());
+            world.getPlayer().setFlipAnimation(false);
         }
 
         if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.Z)){
@@ -85,6 +87,7 @@ public class Input {
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_BACK));
             world.getPlayer().setFacing(FacingValues.UP.name());
+            world.getPlayer().setFlipAnimation(false);
         }
 
         if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.S)){
@@ -93,21 +96,10 @@ public class Input {
             }
             world.getPlayer().setNextAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.RUN_FRONT));
             world.getPlayer().setFacing(FacingValues.DOWN.name());
+            world.getPlayer().setFlipAnimation(false);
         }
 
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.UP)){
-            world.getPlayer().move(0, 40);
-        }
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.DOWN)){
-            world.getPlayer().move(0, -40);
-        }
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.LEFT)){
-            world.getPlayer().move(-40, 0);
-        }
-        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.RIGHT)){
-            world.getPlayer().move(40, 0);
-        }
-
+        // shoot arrow
         if(Gdx.input.isButtonJustPressed(com.badlogic.gdx.Input.Buttons.LEFT)){
             // create a new arrow on the player location
             Arrow arrow = new Arrow(world.getPlayer().getAttackDamage(),
@@ -119,6 +111,63 @@ public class Input {
             // add the arrow to the world and update statistics
             world.getArrows().add(arrow);
             world.getStatistics().setArrowsShot(world.getStatistics().getArrowsShot() + 1);
+        }
+
+        // melee attack
+        if(Gdx.input.isButtonJustPressed(com.badlogic.gdx.Input.Buttons.RIGHT)){
+            // get angle between mouse and player
+            float angle = (float) Math.atan2(Gdx.input.getY() - Gdx.graphics.getHeight() / 2f, Gdx.input.getX() - Gdx.graphics.getWidth() / 2f);
+            angle = (float) Math.toDegrees(angle);
+            angle -= 45;
+            if (angle < 0) { angle += 360; }
+
+            // player melee attack
+            if (angle > 0 && angle <= 90) {
+                // down
+                world.getPlayer().setFacing(FacingValues.DOWN.name());
+                world.getPlayer().setCurrentAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.ATTACK_DOWN));
+                world.getPlayer().setInAnimation(true);
+                world.getPlayer().setFlipAnimation(false);
+            } else if (angle > 90 && angle <= 180) {
+                // left
+                world.getPlayer().setFacing(FacingValues.LEFT.name());
+                world.getPlayer().setCurrentAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.ATTACK_SIDE));
+                world.getPlayer().setInAnimation(true);
+                world.getPlayer().setFlipAnimation(true);
+            } else if (angle > 180 && angle <= 270) {
+                // up
+                world.getPlayer().setFacing(FacingValues.UP.name());
+                world.getPlayer().setCurrentAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.ATTACK_UP));
+                world.getPlayer().setInAnimation(true);
+                world.getPlayer().setFlipAnimation(false);
+            } else if (angle > 270 && angle <= 360) {
+                // right
+                world.getPlayer().setFacing(FacingValues.RIGHT.name());
+                world.getPlayer().setCurrentAnimation(world.getPlayer().getPlayerAnimations().getAnimation(PlayerAnimationType.ATTACK_SIDE));
+                world.getPlayer().setInAnimation(true);
+                world.getPlayer().setFlipAnimation(false);
+            }
+        }
+
+
+
+
+
+
+
+
+        // debug movement
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.UP)){
+            world.getPlayer().move(0, 40);
+        }
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.DOWN)){
+            world.getPlayer().move(0, -40);
+        }
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.LEFT)){
+            world.getPlayer().move(-40, 0);
+        }
+        if(Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.RIGHT)){
+            world.getPlayer().move(40, 0);
         }
     }
 }
