@@ -33,7 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // world
         world = new World();
         // player
-        world.setPlayer(new Player(0, 0, 48, 48, camera));
+        world.setPlayer(new Player(0, 0, 48, 48, camera, world));
 
         // ui
         VisUI.load(VisUI.SkinScale.X2);
@@ -116,7 +116,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.end();
 
         // debug collisions
-        //debugCollisions();
+        debugCollisions();
 
         // camera
         camera.update();

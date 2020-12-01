@@ -25,7 +25,9 @@ public class Player extends Creature {
     private ProgressBar healthBar;
     private boolean isInAnimation;
     private boolean flipAnimation;
+    private boolean flipNextAnimation;
     private List<CollisionEntity> ignoreCollisions;
+    private World world;
 
     // stats
     private float dashCooldown;
@@ -41,12 +43,15 @@ public class Player extends Creature {
     private float drawWidth;
     private float drawHeight;
 
-    public Player(float x, float y, float width, float height, OrthographicCamera camera) {
+    public Player(float x, float y, float width, float height, OrthographicCamera camera, World world) {
         super(x, y, 16, 16);
         ignoreCollisions = new ArrayList<>();
 
         this.drawWidth = width;
         this.drawHeight = height;
+
+        // world
+        this.world = world;
 
         // player variables
         this.dashCooldown = 3;
@@ -93,26 +98,42 @@ public class Player extends Creature {
 
         // player animations
         if (getHealth() <= 0) {
-            currentAnimation = playerAnimations.getAnimation(PlayerAnimationType.DEATH);
-            elapsedTime = 0;
-            isInAnimation = true;
+            setCurrentAnimation(playerAnimations.getAnimation(PlayerAnimationType.DEATH), true, false);
         } else {
-            currentAnimation = playerAnimations.getAnimation(PlayerAnimationType.TAKE_DAMAGE);
-            elapsedTime = 0;
-            isInAnimation = true;
+            setCurrentAnimation(playerAnimations.getAnimation(PlayerAnimationType.TAKE_DAMAGE), true, false);
         }
+    }
+
+    public void setCurrentAnimation(Animation<TextureRegion> animation, boolean isInAnimation, boolean flipAnimation) {
+        currentAnimation = animation;
+        this.flipAnimation = flipAnimation;
+        this.isInAnimation = isInAnimation;
+        elapsedTime = 0;
+    }
+
+    public void setNextAnimation(Animation<TextureRegion> animation, boolean flipAnimation) {
+        nextAnimation = animation;
+        this.flipNextAnimation = flipAnimation;
     }
 
     private void setAnimation() {
         if (isInAnimation) {
             if (currentAnimation.isAnimationFinished(elapsedTime)) {
-                elapsedTime = 0;
-                //currentAnimation = nextAnimation;
-                isInAnimation = false;
+                // remove the player
+                if (currentAnimation.equals(playerAnimations.getAnimation(PlayerAnimationType.DEATH))) {
+                    // todo: remove player
+                }
 
+                // set next animation & reset variables
+                currentAnimation = nextAnimation;
+                flipAnimation = flipNextAnimation;
+                elapsedTime = 0;
+                isInAnimation = false;
             }
         } else {
+            // set next animation
             currentAnimation = nextAnimation;
+            flipAnimation = flipNextAnimation;
         }
     }
 
