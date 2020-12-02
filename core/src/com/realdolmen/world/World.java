@@ -23,7 +23,6 @@ public class World {
     private List<Slime> slimes;
     private List<Arrow> arrows;
     private Statistics statistics;
-    private Settings settings;
     private MapGenerator mapGenerator;
     private State state;
     private Input input;
@@ -32,7 +31,6 @@ public class World {
         this.arrows = new ArrayList<>();
         this.slimes = new ArrayList<>();
         this.statistics = new Statistics();
-        this.settings = new Settings();
 
         // generate new map
         mapGenerator = new MapGenerator(this);
