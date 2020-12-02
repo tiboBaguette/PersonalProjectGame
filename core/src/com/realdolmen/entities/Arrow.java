@@ -64,8 +64,8 @@ public class Arrow extends CollisionEntity {
         }
     }
 
-    private CollisionEntity move(float moveX, float moveY, List<CollisionEntity> ignoreCollisionss) {
-        return this.move(this, moveX, moveY, ignoreCollisionss);
+    private CollisionEntity move(float moveX, float moveY, List<CollisionEntity> ignoreCollisions) {
+        return this.move(this, moveX, moveY, ignoreCollisions);
     }
 
     private void calculateVelocity(float x2, float y2) {

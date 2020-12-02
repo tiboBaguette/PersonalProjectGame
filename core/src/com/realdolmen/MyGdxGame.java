@@ -41,7 +41,7 @@ public class MyGdxGame extends ApplicationAdapter {
         world.getPlayer().createUi(stage);
         Gdx.input.setInputProcessor(stage);
 
-        // shaperederer
+        // shape renderer
         shapeRenderer = new ShapeRenderer();
     }
 

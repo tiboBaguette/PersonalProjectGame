@@ -128,7 +128,7 @@ public class MapGenerator {
                 float y = room.getY() + room.getHeight() / 2f;
                 Slime slime = new Slime(x * Settings.getTileSize(), y * Settings.getTileSize(), Settings.getBossStage());
 
-                // prevent slimes from spawning inside eachother
+                // prevent slimes from spawning inside each other
                 slime.checkSpawnLocation();
 
                 world.addSlime(slime);
@@ -152,7 +152,7 @@ public class MapGenerator {
                     // todo slimeSize in slime class
                     Slime slime = new Slime(x * Settings.getTileSize(), y * Settings.getTileSize(), stage);
 
-                    // prevent slimes from spawning inside eachother
+                    // prevent slimes from spawning inside each other
                     slime.checkSpawnLocation();
 
                     world.addSlime(slime);

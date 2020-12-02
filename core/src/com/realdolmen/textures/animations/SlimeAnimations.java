@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.HashMap;
 
 public class SlimeAnimations {
-    private final String atlasName = "core/assets/animations/SlimeGreenAnimations.atlas";
     private final TextureAtlas textureAtlas;
 
     public HashMap<SlimeAnimationType, Animation<TextureRegion>> animations;
 
     public SlimeAnimations() {
         animations = new HashMap<>();
+        String atlasName = "core/assets/animations/SlimeGreenAnimations.atlas";
         textureAtlas = TextureHelpers.getTextureAtlas(atlasName);
 
         // create the animations

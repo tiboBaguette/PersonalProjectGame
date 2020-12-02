@@ -84,7 +84,7 @@ public class Player extends Creature {
     }
 
     public void createUi(Stage stage) {
-        // healthbar
+        // health bar
         healthBar = new ProgressBar(0f, getMaxHealth(), 1f, false, VisUI.getSkin());
         healthBar.setValue(getHealth());
         healthBar.setColor(0, 1, 0, 1);

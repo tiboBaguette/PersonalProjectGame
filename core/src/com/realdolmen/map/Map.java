@@ -11,8 +11,6 @@ public class Map {
     private final List<Room> rooms;
     private final List<Corridor> corridors;
     private final List<Doorway> doors;
-    private Room startingRoom;
-    private Room bossRoom;
 
     public Map() {
         this.rooms = new ArrayList<>();

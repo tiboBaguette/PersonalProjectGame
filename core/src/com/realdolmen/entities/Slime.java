@@ -97,7 +97,7 @@ public class Slime extends Enemy {
                 if (stage > 1) { // if stage > 1 spawn 2 more slimes of a lower stage
                     for (int i = 0; i < 2; i++) {
                         Slime slime = new Slime(getX(), getY(), stage-1);
-                        // prevent slimes from spawning inside eachother
+                        // prevent slimes from spawning inside each other
                         checkSpawnLocation();
 
                         world.addSlime(slime);
@@ -152,7 +152,7 @@ public class Slime extends Enemy {
     }
 
     public void checkSpawnLocation() {
-        // prevent slimes from spawning inside eachother
+        // prevent slimes from spawning inside each other
         while (!this.move(1, 0).equals(this)) {
             this.setX(this.getX()+1);
         }
