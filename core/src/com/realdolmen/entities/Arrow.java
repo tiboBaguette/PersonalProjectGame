@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.realdolmen.world.Settings;
 import com.realdolmen.world.World;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +39,7 @@ public class Arrow extends CollisionEntity {
         sprite = new Sprite(texture);
 
         this.damage = damage;
-        this.speed = 8;
+        this.speed = Settings.getArrowSpeed();
 
         // set the speedX & speedY
         calculateVelocity(targetX, targetY);
@@ -76,8 +77,8 @@ public class Arrow extends CollisionEntity {
 
     private void adjustArrowHitbox() {
         // move the hitbox to the center of the arrow
-        this.setX(getX() + WIDTH/4f);
-        this.setY(getY() + WIDTH/4f);
+        this.setX(getX() + WIDTH/2f - getWidth() / 2);
+        this.setY(getY() + HEIGHT/2f - getHeight() / 2);
 
         // move the hitbox to the tip of the arrow
         float tipXOffset = WIDTH/2f * (float) Math.cos(angle);
@@ -86,8 +87,8 @@ public class Arrow extends CollisionEntity {
         this.setY(getY() + tipYOffset);
 
         // adjust the draw offset
-        this.xOffset = WIDTH/4f + tipXOffset;
-        this.yOffset = WIDTH/4f + tipYOffset;
+        this.xOffset = WIDTH/2f - getWidth() / 2 + tipXOffset;
+        this.yOffset = HEIGHT/2f - getHeight() / 2 + tipYOffset;
     }
 
     public void draw(Batch batch) {

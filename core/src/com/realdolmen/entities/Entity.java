@@ -3,6 +3,7 @@ package com.realdolmen.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.realdolmen.world.Settings;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,9 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public abstract class Entity {
-    private static final int TILE_SIZE = 16;
-    private static final int CHUNK_SIZE = 8;
-
     private float x;
     private float y;
     private float width;
@@ -42,10 +40,10 @@ public abstract class Entity {
     }
 
     public int getChunkX() {
-        return (int)Math.floor(this.getX() / TILE_SIZE / CHUNK_SIZE);
+        return (int)Math.floor(this.getX() / Settings.getTileSize() / Settings.getChunkSize());
     }
 
     public int getChunkY() {
-        return (int)Math.floor(this.getY() / TILE_SIZE / CHUNK_SIZE);
+        return (int)Math.floor(this.getY() / Settings.getTileSize() / Settings.getChunkSize());
     }
 }

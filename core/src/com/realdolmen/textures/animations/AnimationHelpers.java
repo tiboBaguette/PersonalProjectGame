@@ -3,9 +3,10 @@ package com.realdolmen.textures.animations;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.realdolmen.world.Settings;
 
 public class AnimationHelpers {
-    private static final float ANIMATION_LENGTH = 0.125f;
+    private static final float ANIMATION_LENGTH = Settings.getAnimationLength();
 
     public static Animation<TextureRegion> animationTextureFrames(TextureAtlas textureAtlas, String prefix, int frames) {
         TextureRegion[] animationFrames = new TextureRegion[frames];

@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.HashMap;
 
 public class PlayerAnimations {
-    private final String atlasName = "core/assets/animations/PlayerAnimations.atlas";
     private final TextureAtlas textureAtlas;
 
     public HashMap<PlayerAnimationType, Animation<TextureRegion>> animations;
 
     public PlayerAnimations() {
         animations = new HashMap<>();
+        String atlasName = "core/assets/animations/PlayerAnimations.atlas";
         textureAtlas = TextureHelpers.getTextureAtlas(atlasName);
 
         // create the animations

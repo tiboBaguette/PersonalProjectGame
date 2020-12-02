@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.realdolmen.textures.animations.SlimeAnimationType;
 import com.realdolmen.textures.animations.SlimeAnimations;
+import com.realdolmen.world.Settings;
 import com.realdolmen.world.World;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,23 +39,23 @@ public class Slime extends Enemy {
     private final float drawWidth;
     private final float drawHeight;
 
-    public Slime(float x, float y, float width, float height, int stage) {
-        super(x, y, width / 2 * stage, height / 2 * stage);
+    public Slime(float x, float y, int stage) {
+        super(x, y, Settings.getSlimeSize() / 2f * stage, Settings.getSlimeSize() / 2f * stage);
         ignoreCollisions = new ArrayList<>();
 
-        this.drawWidth = width * 2 * stage;
-        this.drawHeight = height * 2 * stage;
+        this.drawWidth = Settings.getSlimeSize() * 2 * stage;
+        this.drawHeight = Settings.getSlimeSize() * 2 * stage;
 
         // slime variables
         this.stage = stage;
-        this.attackDistance = (float) 1.5 * stage;
+        this.attackDistance = (float) Settings.getSlimeAttackDistance() * stage;
 
         // creature variables
-        setMaxHealth(100 * stage);
-        setHealth(100 * stage);
-        setAttackDamage(5 * stage /2f);
-        setMoveSpeed(2);
-        setAttackSpeed(1);
+        setMaxHealth(Settings.getSlimeMaxHealth() * stage);
+        setHealth(Settings.getSlimeMaxHealth() * stage);
+        setAttackDamage(Settings.getSlimeAttackDamage() * stage /2f);
+        setMoveSpeed(Settings.getSlimeMoveSpeed());
+        setAttackSpeed(Settings.getSlimeAttackSpeed());
 
         // animation
         this.elapsedTime = 0;
@@ -95,7 +96,7 @@ public class Slime extends Enemy {
 
                 if (stage > 1) { // if stage > 1 spawn 2 more slimes of a lower stage
                     for (int i = 0; i < 2; i++) {
-                        Slime slime = new Slime(getX(), getY(), 16, 16, stage-1);
+                        Slime slime = new Slime(getX(), getY(), stage-1);
                         // prevent slimes from spawning inside eachother
                         checkSpawnLocation();
 
@@ -113,7 +114,7 @@ public class Slime extends Enemy {
         float distanceToPlayerY = world.getPlayer().getY() - this.getY();
         float distanceToPlayer = (float) Math.sqrt(Math.pow(distanceToPlayerX, 2) + Math.pow(distanceToPlayerY, 2));
 
-        if (distanceToPlayer < attackDistance * 16) { // attack
+        if (distanceToPlayer < attackDistance) { // attack
             // get the angle to the player
             float angle = (float) Math.toDegrees(Math.atan2(world.getPlayer().getY() - this.getY(), world.getPlayer().getX() - this.getX()));
 

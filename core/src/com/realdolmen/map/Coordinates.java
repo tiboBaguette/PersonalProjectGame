@@ -1,5 +1,6 @@
 package com.realdolmen.map;
 
+import com.realdolmen.world.Settings;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,10 +18,10 @@ public class Coordinates {
     }
 
     public int getXTileCoords() {
-        return (int) Math.floor(x / 16);
+        return (int) Math.floor(x / Settings.getTileSize());
     }
 
     public int getYTileCoords() {
-        return (int) Math.floor(y / 16);
+        return (int) Math.floor(y / Settings.getTileSize());
     }
 }

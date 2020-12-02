@@ -1,5 +1,6 @@
 package com.realdolmen.map;
 
+import com.realdolmen.world.Settings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,12 +27,12 @@ public class Doorway {
                 doorY1 = corridorY;
                 doorY2 = corridorY + corridorHeight;
 
-                this.coordinates.add(new Coordinates(doorX1 * 16, doorY1 * 16));
-                this.coordinates.add(new Coordinates(doorX2 * 16, doorY1 * 16));
-                this.coordinates.add(new Coordinates(doorX3 * 16, doorY1 * 16));
-                this.coordinates.add(new Coordinates(doorX1 * 16, doorY2 * 16));
-                this.coordinates.add(new Coordinates(doorX2 * 16, doorY2 * 16));
-                this.coordinates.add(new Coordinates(doorX3 * 16, doorY2 * 16));
+                this.coordinates.add(new Coordinates(doorX1 * Settings.getTileSize(), doorY1 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX2 * Settings.getTileSize(), doorY1 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX3 * Settings.getTileSize(), doorY1 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX1 * Settings.getTileSize(), doorY2 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX2 * Settings.getTileSize(), doorY2 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX3 * Settings.getTileSize(), doorY2 * Settings.getTileSize()));
                 this.orientation = "HORIZONTAL";
 
                 break;
@@ -44,12 +45,12 @@ public class Doorway {
                 doorX1 = corridorX;
                 doorX2 = corridorX + corridorWidth;
 
-                this.coordinates.add(new Coordinates(doorX1 * 16, doorY1 * 16));
-                this.coordinates.add(new Coordinates(doorX1 * 16, doorY2 * 16));
-                this.coordinates.add(new Coordinates(doorX1 * 16, doorY3 * 16));
-                this.coordinates.add(new Coordinates(doorX2 * 16, doorY1 * 16));
-                this.coordinates.add(new Coordinates(doorX2 * 16, doorY2 * 16));
-                this.coordinates.add(new Coordinates(doorX2 * 16, doorY3 * 16));
+                this.coordinates.add(new Coordinates(doorX1 * Settings.getTileSize(), doorY1 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX1 * Settings.getTileSize(), doorY2 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX1 * Settings.getTileSize(), doorY3 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX2 * Settings.getTileSize(), doorY1 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX2 * Settings.getTileSize(), doorY2 * Settings.getTileSize()));
+                this.coordinates.add(new Coordinates(doorX2 * Settings.getTileSize(), doorY3 * Settings.getTileSize()));
                 this.orientation = "VERTICAL";
 
                 break;

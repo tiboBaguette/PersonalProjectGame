@@ -3,6 +3,7 @@ package com.realdolmen.map;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.realdolmen.textures.MapTiles;
+import com.realdolmen.world.Settings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +26,8 @@ public class Room {
     private boolean roomRight = false;
 
     public Room(int x, int y, int width, int height) {
-        this.x = x / 16;
-        this.y = y / 16;
+        this.x = x / Settings.getTileSize();
+        this.y = y / Settings.getTileSize();
         this.width = width;
         this.height = height;
 

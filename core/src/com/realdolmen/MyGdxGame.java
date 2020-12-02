@@ -33,7 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // world
         world = new World();
         // player
-        world.setPlayer(new Player(0, 0, 48, 48, camera, world));
+        world.setPlayer(new Player(0, 0, camera, world));
 
         // ui
         VisUI.load(VisUI.SkinScale.X2);

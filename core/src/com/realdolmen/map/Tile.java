@@ -3,6 +3,7 @@ package com.realdolmen.map;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.realdolmen.entities.CollisionEntity;
+import com.realdolmen.world.Settings;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,11 +25,11 @@ public class Tile {
     }
 
     private void createCollisionEntities() {
-        CollisionEntity collisionEntity = new CollisionEntity(x * 16, y * 16, 16, 16);
+        CollisionEntity collisionEntity = new CollisionEntity(x * Settings.getTileSize(), y * Settings.getTileSize(), Settings.getTileSize(), Settings.getTileSize());
         collisionEntity.addCollisionEntity(collisionEntity);
     }
 
     public void draw(Batch batch) {
-        batch.draw(textureRegion, x * 16, y * 16);
+        batch.draw(textureRegion, x * Settings.getTileSize(), y * Settings.getTileSize());
     }
 }

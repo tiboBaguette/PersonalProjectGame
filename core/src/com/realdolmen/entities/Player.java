@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.textures.animations.PlayerAnimationType;
 import com.realdolmen.textures.animations.PlayerAnimations;
+import com.realdolmen.world.Settings;
 import com.realdolmen.world.World;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,15 +41,15 @@ public class Player extends Creature {
     private PlayerAnimations playerAnimations;
 
     // draw
-    private float drawWidth;
-    private float drawHeight;
+    private int drawWidth;
+    private int drawHeight;
 
-    public Player(float x, float y, float width, float height, OrthographicCamera camera, World world) {
+    public Player(float x, float y, OrthographicCamera camera, World world) {
         super(x, y, 16, 16);
         ignoreCollisions = new ArrayList<>();
 
-        this.drawWidth = width;
-        this.drawHeight = height;
+        this.drawWidth = Settings.getPlayerSize();
+        this.drawHeight = Settings.getPlayerSize();
 
         // world
         this.world = world;
@@ -57,11 +58,11 @@ public class Player extends Creature {
         this.dashCooldown = 3;
 
         // creature variables
-        setMaxHealth(100);
-        setHealth(100);
-        setMoveSpeed(3);
-        setAttackSpeed(1);
-        setAttackDamage(25);
+        setMaxHealth(Settings.getPlayerMaxHealth());
+        setHealth(Settings.getPlayerMaxHealth());
+        setMoveSpeed(Settings.getPlayerMoveSpeed());
+        setAttackSpeed(Settings.getPlayerAttackSpeed());
+        setAttackDamage(Settings.getPlayerAttackDamage());
 
         this.elapsedTime = 0;
         playerAnimations = new PlayerAnimations();
@@ -84,7 +85,7 @@ public class Player extends Creature {
 
     public void createUi(Stage stage) {
         // healthbar
-        healthBar = new ProgressBar(0f, 100f, 1f, false, VisUI.getSkin());
+        healthBar = new ProgressBar(0f, getMaxHealth(), 1f, false, VisUI.getSkin());
         healthBar.setValue(getHealth());
         healthBar.setColor(0, 1, 0, 1);
         healthBar.setWidth(Gdx.graphics.getWidth() / 3f);
