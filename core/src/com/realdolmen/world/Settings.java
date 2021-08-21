@@ -15,7 +15,7 @@ public class Settings {
     @Getter private static final int playerMaxHealth = 100;
     @Getter private static final int playerMoveSpeed = 3;
     @Getter private static final int playerAttackSpeed = 1; // not yet implemented
-    @Getter private static final int playerAttackDamage = 25;
+    @Getter private static final int playerAttackDamage = 100;
 
     // slime
     @Getter private static final int slimeSize = 16;
@@ -26,20 +26,20 @@ public class Settings {
     @Getter private static final int slimeAttackDamage = 5;
 
     // map
-    @Getter private static final int mapSize = 5;
-    @Getter private static final int bossRoomSize = 50;
-    @Getter private static final int maxRoomWidth = 41;
-    @Getter private static final int maxRoomHeight = 41;
-    @Getter private static final int minRoomWidth = 21;
-    @Getter private static final int minRoomHeight = 21;
-    @Getter private static final int minDistanceBetweenRooms = 2;
+    @Getter private static final int mapSize = 6;
+    @Getter private static final int bossRoomSize = 60;
+    @Getter private static final int maxRoomWidth = 50;
+    @Getter private static final int maxRoomHeight = 50;
+    @Getter private static final int minRoomWidth = 30;
+    @Getter private static final int minRoomHeight = 30;
+    @Getter private static final int minDistanceBetweenRooms = 5;
     @Getter private static final int corridorWidth = 5;
-    @Getter private static final int minCorridorLength = 10;
+    @Getter private static final int minCorridorLength = 15;
     @Getter private static final int maxExtraCorridorLength = 15; // max corridor length = minCorridorLength + maxExtraCorridorLength
     @Getter private static final int startingRoomChance = 100; // the chance to spawn extra rooms to the starting rooms
-    @Getter private static final int roomChance = 50; // the chance to spawn extra rooms
+    @Getter private static final int roomChance = 60; // the chance to spawn extra rooms
 
     // enemies
-    @Getter private static final int minEnemiesPerRoom = 5;
-    @Getter private static final int bossStage = 5;
+    @Getter private static final int minEnemiesPerRoom = 10;
+    @Getter private static final int bossStage = 6;
 }

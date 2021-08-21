@@ -19,7 +19,8 @@ import java.util.List;
 @Setter
 public class Slime extends Enemy {
     private Boolean dealDamage;
-    private Boolean die;
+    private Boolean die3; // true after 2nd frame of death animation
+    private Boolean die6; // true after 6th / last frame of death animation
     private List<CollisionEntity> ignoreCollisions;
 
     // animations
@@ -66,7 +67,8 @@ public class Slime extends Enemy {
         currentAnimation = slimeAnimations.getAnimation(SlimeAnimationType.IDLE);
 
         this.dealDamage = false;
-        this.die = false;
+        this.die3 = false;
+        this.die6 = false;
     }
 
     public CollisionEntity move(float moveX, float moveY) {
@@ -87,13 +89,19 @@ public class Slime extends Enemy {
             }
         }
 
-        // die
+        // slime death
         if (getHealth() <= 0) {
-            this.removeCollisionEntity();
-            if (die) {
+            // at 2nd frame of death animation
+            if (die3) {
+                // run this part once (collision entity is removed so health doesn't matter)
+                setHealth(1);
+                setMoveSpeed(0);
+                removeCollisionEntity();
+
                 // update statistics
                 world.getStatistics().setKills(world.getStatistics().getKills() + 1);
 
+                // spawn new slimes
                 if (stage > 1) { // if stage > 1 spawn 2 more slimes of a lower stage
                     for (int i = 0; i < 2; i++) {
                         Slime slime = new Slime(getX(), getY(), stage-1);
@@ -103,10 +111,12 @@ public class Slime extends Enemy {
                         world.addSlime(slime);
                     }
                 }
-
-                // remove the slime
-                world.removeSlime(this);
             }
+        }
+
+        // after death animation
+        if (die6) {
+            world.removeSlime(this);
         }
 
         // move, attack & idle
@@ -170,7 +180,7 @@ public class Slime extends Enemy {
     }
 
     private void setAnimation() {
-        // if attack is finished
+        // attack animation
         if (currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_DOWN)) ||
                 currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_UP)) ||
                 currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.ATTACK_SIDE))) {
@@ -180,12 +190,20 @@ public class Slime extends Enemy {
             }
         }
 
-        if (currentAnimation.isAnimationFinished(elapsedTime)) {
-            // if death is finished
-            if (currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.DEATH))) {
-                die = true;
+        // death animation
+        if (currentAnimation.equals(slimeAnimations.getAnimation(SlimeAnimationType.DEATH))) {
+            // spawn new slimes at the 2nd frame in the death animation
+            if (currentAnimation.getKeyFrameIndex(elapsedTime) == 2) {
+                die3 = true;
             }
 
+            // if death animation is finished remove the slime
+            if (currentAnimation.isAnimationFinished(elapsedTime)) {
+                die6 = true;
+            }
+        }
+
+        if (currentAnimation.isAnimationFinished(elapsedTime)) {
             // set the next animation
             elapsedTime = 0;
             currentAnimation = nextAnimation;
@@ -197,7 +215,7 @@ public class Slime extends Enemy {
         elapsedTime += Gdx.graphics.getDeltaTime();
         setAnimation();
 
-        if (!die) {
+        if (!die6) {
             super.draw(batch, currentAnimation, drawWidth, drawHeight, flip, elapsedTime);
         }
     }

@@ -55,10 +55,13 @@ jpa scoreboard
 
 
 TODO:
-player melee attack  & player dash
+player melee attack & player dash
 customize bossroom (spawners, torches...)
 fix corridor corners
 map generation settings
 room generation
 map generation connect parallel rooms (not 100% chance)
+arrow count + arrow drops
+checkspawnlocation() not perfect
+optimizations (20+ slimes = lag)
 clean code

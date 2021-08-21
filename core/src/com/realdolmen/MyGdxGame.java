@@ -11,6 +11,8 @@ import com.kotcrab.vis.ui.VisUI;
 import com.realdolmen.entities.*;
 import com.realdolmen.world.World;
 
+import java.util.ArrayList;
+
 public class MyGdxGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Stage stage;
@@ -116,7 +118,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.end();
 
         // debug collisions
-        debugCollisions();
+        // debugCollisions();
 
         // camera
         camera.update();
